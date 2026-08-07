@@ -360,9 +360,20 @@
                     <div class="flex justify-between items-center"><span class="text-sm font-medium text-gray-300">ยอดปรับสุทธิ:</span><span id="res-fine" class="text-3xl font-black text-cyan-400">0</span></div>
                     <div class="flex justify-between items-center"><span class="text-sm font-medium text-gray-300">เวลาจำคุกสุทธิ:</span><span class="text-2xl font-black text-cyan-400"><span id="res-time">0</span> นาที</span></div>
                     
+                    <!-- ส่วนปุ่มตัวเลือกพิเศษ 4 ปุ่ม -->
                     <div class="grid grid-cols-2 gap-2 pt-2">
-                        <label class="car-btn-dark text-gray-300 text-xs rounded-lg p-2 flex items-center justify-center gap-2 cursor-pointer"><input type="checkbox" id="opt-col" class="custom-checkbox"> 👥 สมรู้ร่วมคิด</label>
-                        <label class="car-btn-dark text-gray-300 text-xs rounded-lg p-2 flex items-center justify-center gap-2 cursor-pointer"><input type="checkbox" id="opt-fix" class="custom-checkbox"> 📝 แก้คดี</label>
+                        <label class="car-btn-dark text-gray-300 text-xs rounded-lg p-2.5 flex items-center justify-center gap-2 cursor-pointer">
+                            <input type="checkbox" id="opt-col" class="custom-checkbox"> 👥 สมรู้ร่วมคิด
+                        </label>
+                        <label class="car-btn-dark text-gray-300 text-xs rounded-lg p-2.5 flex items-center justify-center gap-2 cursor-pointer">
+                            <input type="checkbox" id="opt-fix" class="custom-checkbox"> 📝 แก้คดี
+                        </label>
+                        <label class="car-btn-dark text-gray-300 text-xs rounded-lg p-2.5 flex items-center justify-center gap-2 cursor-pointer">
+                            <input type="checkbox" id="opt-ring" class="custom-checkbox"> 💍 แหวนแก๊ง
+                        </label>
+                        <label class="car-btn-dark text-gray-300 text-xs rounded-lg p-2.5 flex items-center justify-center gap-2 cursor-pointer">
+                            <input type="checkbox" id="opt-org" class="custom-checkbox"> 🏢 หน่วยงาน
+                        </label>
                     </div>
 
                     <div id="side-list-crimes" class="h-20 bg-slate-950 rounded-lg p-2.5 text-sm text-gray-400 overflow-y-auto border border-slate-800">ข้อหาจะแสดงที่นี่...</div>
@@ -618,44 +629,37 @@
         let currentCalculatedData = {};
 
         function runCalculation() {
-            const areaRisk = document.getElementById('area-risk');       // พื้นที่สุ่มเสี่ยง
-            const areaCity = document.getElementById('area-city');       // หลบหนีในเมือง
-            const areaOut = document.getElementById('area-out');         // หลบหนีนอกเมือง
-            const areaUpper = document.getElementById('area-upper');     // หลบหนีเมืองบน
-            const areaAir = document.getElementById('area-air');         // หลบหนีสนามบิน
-            const areaDesert = document.getElementById('area-desert');   // หลบหนีทะเลทราย
-            const areaAround = document.getElementById('area-around');   // หลบหนีรอบเมือง
-            const areaHard = document.getElementById('area-hard');       // พื้นที่เข้าถึงยาก
-            const areaWater = document.getElementById('area-water');     // หลบหนีทางน้ำ
+            const areaRisk = document.getElementById('area-risk');       
+            const areaCity = document.getElementById('area-city');       
+            const areaOut = document.getElementById('area-out');         
+            const areaUpper = document.getElementById('area-upper');     
+            const areaAir = document.getElementById('area-air');         
+            const areaDesert = document.getElementById('area-desert');   
+            const areaAround = document.getElementById('area-around');   
+            const areaHard = document.getElementById('area-hard');       
+            const areaWater = document.getElementById('area-water');     
 
             const allAreaElements = [areaRisk, areaCity, areaOut, areaUpper, areaAir, areaDesert, areaAround, areaHard, areaWater];
             const otherEscapeAreas = [areaOut, areaUpper, areaAir, areaDesert, areaAround];
 
-            // 1. รีเซ็ตการปิดใช้งานทั้งหมดก่อนคำนวณ
             allAreaElements.forEach(el => el.disabled = false);
 
-            // 2. ควบคุมกฎการเลือกพื้นที่หลบหนี
             if (areaWater.checked) {
-                // หลบหนีทางน้ำใส่กับอันไหนไม่ได้เลย
                 allAreaElements.forEach(el => {
                     if (el !== areaWater) el.disabled = true;
                 });
             } else {
-                // ถ้ามีการเลือกพื้นที่อื่นอยู่แล้ว ให้ปิดหลบหนีทางน้ำ
                 const isAnyChecked = allAreaElements.some(el => el.checked);
                 if (isAnyChecked) {
                     areaWater.disabled = true;
                 }
 
-                // กรณีเลือก "หลบหนีในเมือง" -> เลือกได้แค่ "พื้นที่สุ่มเสี่ยง"
                 if (areaCity.checked) {
                     allAreaElements.forEach(el => {
                         if (el !== areaCity && el !== areaRisk) el.disabled = true;
                     });
                 }
 
-                // กรณีเลือกกลุ่มหลบหนีอื่นๆ (นอกเมือง, เมืองบน, สนามบิน, ทะเลทราย, รอบเมือง)
-                // -> เลือกได้แค่ "พื้นที่เข้าถึงยาก" และ "พื้นที่สุ่มเสี่ยง" + ห้ามเลือกหลบหนีประเภทอื่นซ้ำ
                 const checkedEscapeGroup = otherEscapeAreas.find(el => el.checked);
                 if (checkedEscapeGroup) {
                     areaCity.disabled = true;
@@ -664,7 +668,6 @@
                     });
                 }
 
-                // กรณีเลือก "พื้นที่เข้าถึงยาก" -> ปิด "หลบหนีในเมือง" และ "หลบหนีทางน้ำ"
                 if (areaHard.checked) {
                     areaCity.disabled = true;
                     areaWater.disabled = true;
@@ -757,16 +760,25 @@
             document.getElementById('res-fine').innerText = grandTotalFine.toLocaleString();
             document.getElementById('res-time').innerText = finalTime;
 
+            // รวบรวมรายการตัวเลือกพิเศษ
             let outputArray = [...selectedCrimes];
             if (document.getElementById('car-wheel').checked) outputArray.push("ล้อโทนมืด");
             if (document.getElementById('car-color').checked) outputArray.push("สีรถโทนมืด");
             if (document.getElementById('car-trade').checked) outputArray.push("เทรดรถ");
-            if (document.getElementById('opt-col').checked && outputArray.length > 0) outputArray.push("สมรู้ร่วมคิด");
+            if (document.getElementById('opt-col').checked) outputArray.push("สมรู้ร่วมคิด");
             if ((isBailSelf || isBailRel) && outputArray.length > 0) outputArray.push("ประกัน");
 
             let resultString = outputArray.join(' + ');
-            if (document.getElementById('opt-fix').checked && resultString.length > 0) {
-                resultString += " (แก้คดี)";
+            
+            // เพิ่มวงเล็บ แหวนแก๊ง และ หน่วยงาน
+            if (document.getElementById('opt-fix').checked) {
+                resultString += (resultString.length > 0 ? " " : "") + "(แก้คดี)";
+            }
+            if (document.getElementById('opt-ring').checked) {
+                resultString += (resultString.length > 0 ? " " : "") + "(แหวนแก๊ง)";
+            }
+            if (document.getElementById('opt-org').checked) {
+                resultString += (resultString.length > 0 ? " " : "") + "(หน่วยงาน)";
             }
 
             const sideList = document.getElementById('side-list-crimes');
@@ -779,17 +791,24 @@
             }
 
             let baseCrimesTitle = selectedCrimes.join(' + ');
-            if (document.getElementById('car-wheel').checked) baseCrimesTitle += " + ล้อโทนมืด";
-            if (document.getElementById('car-color').checked) baseCrimesTitle += " + สีรถโทนมืด";
-            if (document.getElementById('car-trade').checked) baseCrimesTitle += " + เทรดรถ";
-            if (document.getElementById('opt-col').checked && baseCrimesTitle.length > 0) baseCrimesTitle += " + สมรู้ร่วมคิด";
-            
+            if (document.getElementById('car-wheel').checked) baseCrimesTitle += (baseCrimesTitle ? " + " : "") + "ล้อโทนมืด";
+            if (document.getElementById('car-color').checked) baseCrimesTitle += (baseCrimesTitle ? " + " : "") + "สีรถโทนมืด";
+            if (document.getElementById('car-trade').checked) baseCrimesTitle += (baseCrimesTitle ? " + " : "") + "เทรดรถ";
+            if (document.getElementById('opt-col').checked) baseCrimesTitle += (baseCrimesTitle ? " + " : "") + "สมรู้ร่วมคิด";
+            if (document.getElementById('opt-fix').checked) baseCrimesTitle += (baseCrimesTitle ? " + " : "") + "แก้คดี";
+
+            if (document.getElementById('opt-fix').checked) {
+                baseCrimesTitle += (baseCrimesTitle ? " " : "") + "(แก้คดี)";
+            }
+            if (document.getElementById('opt-ring').checked) {
+                baseCrimesTitle += (baseCrimesTitle ? " " : "") + "(แหวนแก๊ง)";
+            }
+            if (document.getElementById('opt-org').checked) {
+                baseCrimesTitle += (baseCrimesTitle ? " " : "") + "(หน่วยงาน)";
+            }
+
             let noBailTitle = baseCrimesTitle;
             let bailTitle = baseCrimesTitle ? baseCrimesTitle + " + ประกัน" : "";
-            if (document.getElementById('opt-fix').checked) {
-                if(noBailTitle) noBailTitle += " (แก้คดี)";
-                if(bailTitle) bailTitle += " (แก้คดี)";
-            }
 
             let autoBailCost = 0;
             if (baseTime > 5) {
