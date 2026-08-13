@@ -64,6 +64,10 @@
             background: linear-gradient(90deg, #1e1b4b, #0f172a);
             border-bottom: 2px solid #a855f7;
         }
+        .head-announce-neon {
+            background: linear-gradient(90deg, #1e3a8a, #0f172a);
+            border-bottom: 2px solid #3b82f6;
+        }
         
         .car-btn-dark { 
             background-color: #04060b; 
@@ -494,14 +498,141 @@
             </div>
         </div>
 
+        <!-- แท็บ 5 (คำสั่งประกาศ) -->
+        <div id="tab-content-5" class="tab-content hidden space-y-6">
+            <div class="summary-box-neon">
+                <div class="head-announce-neon p-4 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">📢</span>
+                        <h2 class="text-base font-bold text-blue-300 tracking-wide">คำสั่งประกาศสถานะตำรวจ</h2>
+                    </div>
+                </div>
+                
+                <div class="p-6 bg-[#03060c]/90 space-y-4">
+                    <!-- 1. ประกาศทุกเซิร์ฟ, ตำรวจเข้าเวรเซิฟ ? นะครับ -->
+                    <div class="bg-subcard p-4 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-blue-900/40">
+                        <div class="flex-1 w-full">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-xs text-blue-400 font-bold uppercase tracking-wider">ประกาศเข้าเวรเซิฟเวอร์</span>
+                            </div>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="text-sm font-semibold text-gray-200">/ประกาศทุกเซิร์ฟ, ตำรวจเข้าเวรเซิฟ</span>
+                                <input type="text" id="announce-num-1" value="1" class="w-16 bg-slate-900 border border-blue-500/50 text-center text-cyan-400 font-bold rounded p-1 text-sm focus:outline-none focus:border-cyan-400" placeholder="เลข">
+                                <span class="text-sm font-semibold text-gray-200">นะครับ</span>
+                            </div>
+                        </div>
+                        <button onclick="copyDynamicAnnounce('announce-cmd-1', '/ประกาศทุกเซิร์ฟ, ตำรวจเข้าเวรเซิฟ {num} นะครับ', 'announce-num-1')" id="announce-cmd-1" class="btn-bounce w-full md:w-auto bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-bold py-2.5 px-5 rounded-xl text-xs flex items-center justify-center gap-2 cursor-pointer shadow-md transition-all duration-300 whitespace-nowrap">
+                            📋 คัดลอก
+                        </button>
+                    </div>
+
+                    <!-- 2. ประกาศ, ตำรวจเข้าเวรเพิ่ม 1 ท่านนะครับ -->
+                    <div class="bg-subcard p-4 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-slate-800">
+                        <div class="flex-1 w-full">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-xs text-slate-400 block">ประกาศเข้าเวรเพิ่ม</span>
+                            </div>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="text-sm font-semibold text-gray-200">/ประกาศ, ตำรวจเข้าเวรเพิ่ม</span>
+                                <input type="text" id="announce-num-2" value="1" class="w-16 bg-slate-900 border border-slate-700 text-center text-cyan-400 font-bold rounded p-1 text-sm focus:outline-none focus:border-cyan-400" placeholder="จำนวน">
+                                <span class="text-sm font-semibold text-gray-200">ท่านนะครับ</span>
+                            </div>
+                        </div>
+                        <button onclick="copyDynamicAnnounce('announce-cmd-2', '/ประกาศ, ตำรวจเข้าเวรเพิ่ม {num} ท่านนะครับ', 'announce-num-2')" id="announce-cmd-2" class="btn-bounce w-full md:w-auto bg-slate-800 hover:bg-slate-700 text-gray-200 font-bold py-2.5 px-5 rounded-xl text-xs flex items-center justify-center gap-2 cursor-pointer border border-slate-700 transition-all duration-300 whitespace-nowrap">
+                            📋 คัดลอก
+                        </button>
+                    </div>
+
+                    <!-- 3. ประกาศ, ตำรวจลงเวรแล้วนะครับ -->
+                    <div class="bg-subcard p-4 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-slate-800">
+                        <div>
+                            <span class="text-xs text-slate-400 block mb-1">ประกาศลงเวร</span>
+                            <span class="text-sm font-semibold text-gray-200">/ประกาศ, ตำรวจลงเวรแล้วนะครับ</span>
+                        </div>
+                        <button onclick="copyAnnounceText('announce-cmd-3', '/ประกาศ, ตำรวจลงเวรแล้วนะครับ')" id="announce-cmd-3" class="btn-bounce w-full md:w-auto bg-slate-800 hover:bg-slate-700 text-gray-200 font-bold py-2.5 px-5 rounded-xl text-xs flex items-center justify-center gap-2 cursor-pointer border border-slate-700 transition-all duration-300 whitespace-nowrap">
+                            📋 คัดลอก
+                        </button>
+                    </div>
+
+                    <!-- 4. ประกาศ, ตำรวจลงเวร 1 ท่านนะครับ -->
+                    <div class="bg-subcard p-4 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-slate-800">
+                        <div class="flex-1 w-full">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-xs text-slate-400 block">ประกาศลงเวร (จำนวนท่าน)</span>
+                            </div>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="text-sm font-semibold text-gray-200">/ประกาศ, ตำรวจลงเวร</span>
+                                <input type="text" id="announce-num-4" value="1" class="w-16 bg-slate-900 border border-slate-700 text-center text-cyan-400 font-bold rounded p-1 text-sm focus:outline-none focus:border-cyan-400" placeholder="จำนวน">
+                                <span class="text-sm font-semibold text-gray-200">ท่านนะครับ</span>
+                            </div>
+                        </div>
+                        <button onclick="copyDynamicAnnounce('announce-cmd-4', '/ประกาศ, ตำรวจลงเวร {num} ท่านนะครับ', 'announce-num-4')" id="announce-cmd-4" class="btn-bounce w-full md:w-auto bg-slate-800 hover:bg-slate-700 text-gray-200 font-bold py-2.5 px-5 rounded-xl text-xs flex items-center justify-center gap-2 cursor-pointer border border-slate-700 transition-all duration-300 whitespace-nowrap">
+                            📋 คัดลอก
+                        </button>
+                    </div>
+
+                    <!-- 5. ประกาศ, ตำรวจเล่นแอร์นะครับ -->
+                    <div class="bg-subcard p-4 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-slate-800">
+                        <div>
+                            <span class="text-xs text-slate-400 block mb-1">ประกาศเล่นแอร์</span>
+                            <span class="text-sm font-semibold text-gray-200">/ประกาศ, ตำรวจเล่นแอร์นะครับ</span>
+                        </div>
+                        <button onclick="copyAnnounceText('announce-cmd-5', '/ประกาศ, ตำรวจเล่นแอร์นะครับ')" id="announce-cmd-5" class="btn-bounce w-full md:w-auto bg-slate-800 hover:bg-slate-700 text-gray-200 font-bold py-2.5 px-5 rounded-xl text-xs flex items-center justify-center gap-2 cursor-pointer border border-slate-700 transition-all duration-300 whitespace-nowrap">
+                            📋 คัดลอก
+                        </button>
+                    </div>
+
+                    <!-- 6. ประกาศ, ตำรวจเหม่อ 1 ท่านนะครับ -->
+                    <div class="bg-subcard p-4 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-slate-800">
+                        <div class="flex-1 w-full">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-xs text-slate-400 block">ประกาศเหม่อ</span>
+                            </div>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="text-sm font-semibold text-gray-200">/ประกาศ, ตำรวจเหม่อ</span>
+                                <input type="text" id="announce-num-6" value="1" class="w-16 bg-slate-900 border border-slate-700 text-center text-cyan-400 font-bold rounded p-1 text-sm focus:outline-none focus:border-cyan-400" placeholder="จำนวน">
+                                <span class="text-sm font-semibold text-gray-200">ท่านนะครับ</span>
+                            </div>
+                        </div>
+                        <button onclick="copyDynamicAnnounce('announce-cmd-6', '/ประกาศ, ตำรวจเหม่อ {num} ท่านนะครับ', 'announce-num-6')" id="announce-cmd-6" class="btn-bounce w-full md:w-auto bg-slate-800 hover:bg-slate-700 text-gray-200 font-bold py-2.5 px-5 rounded-xl text-xs flex items-center justify-center gap-2 cursor-pointer border border-slate-700 transition-all duration-300 whitespace-nowrap">
+                            📋 คัดลอก
+                        </button>
+                    </div>
+
+                    <!-- 7. ประกาศ, ตำรวจลงเวรเล่นกิจกรรมสักครู่นะครับ -->
+                    <div class="bg-subcard p-4 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-slate-800">
+                        <div>
+                            <span class="text-xs text-slate-400 block mb-1">ประกาศลงเวรเล่นกิจกรรม</span>
+                            <span class="text-sm font-semibold text-gray-200">/ประกาศ, ตำรวจลงเวรเล่นกิจกรรมสักครู่นะครับ</span>
+                        </div>
+                        <button onclick="copyAnnounceText('announce-cmd-7', '/ประกาศ, ตำรวจลงเวรเล่นกิจกรรมสักครู่นะครับ')" id="announce-cmd-7" class="btn-bounce w-full md:w-auto bg-slate-800 hover:bg-slate-700 text-gray-200 font-bold py-2.5 px-5 rounded-xl text-xs flex items-center justify-center gap-2 cursor-pointer border border-slate-700 transition-all duration-300 whitespace-nowrap">
+                            📋 คัดลอก
+                        </button>
+                    </div>
+
+                    <!-- 8. ประกาศ, ตำรวจกลับมาแล้วนะครับ -->
+                    <div class="bg-subcard p-4 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-slate-800">
+                        <div>
+                            <span class="text-xs text-slate-400 block mb-1">ประกาศกลับมาแล้ว</span>
+                            <span class="text-sm font-semibold text-gray-200">/ประกาศ, ตำรวจกลับมาแล้วนะครับ</span>
+                        </div>
+                        <button onclick="copyAnnounceText('announce-cmd-8', '/ประกาศ, ตำรวจกลับมาแล้วนะครับ')" id="announce-cmd-8" class="btn-bounce w-full md:w-auto bg-slate-800 hover:bg-slate-700 text-gray-200 font-bold py-2.5 px-5 rounded-xl text-xs flex items-center justify-center gap-2 cursor-pointer border border-slate-700 transition-all duration-300 whitespace-nowrap">
+                            📋 คัดลอก
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- แถบเมนูล่าง -->
-    <div class="fixed bottom-0 left-0 right-0 bg-[#04060b] border-t border-slate-900 p-3 flex justify-center gap-2 md:gap-4 z-40">
+    <div class="fixed bottom-0 left-0 right-0 bg-[#04060b] border-t border-slate-900 p-3 flex justify-center gap-2 md:gap-4 z-40 overflow-x-auto">
         <button onclick="switchTab(1)" id="btn-tab-1" class="tab-btn px-3 md:px-4 py-2 rounded-lg font-bold text-xs bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-md cursor-pointer">📊 งานดำ / หลบหนี</button>
         <button onclick="switchTab(2)" id="btn-tab-2" class="tab-btn px-3 md:px-4 py-2 rounded-lg font-bold text-xs bg-slate-900 text-gray-400 hover:bg-slate-800 cursor-pointer">🚨 จับเหตุซึ่งหน้า</button>
         <button onclick="switchTab(3)" id="btn-tab-3" class="tab-btn px-3 md:px-4 py-2 rounded-lg font-bold text-xs bg-slate-900 text-gray-400 hover:bg-slate-800 cursor-pointer">📝 หน้าสรุปข้อความ</button>
         <button onclick="switchTab(4)" id="btn-tab-4" class="tab-btn px-3 md:px-4 py-2 rounded-lg font-bold text-xs bg-slate-900 text-purple-400 hover:bg-slate-800 cursor-pointer flex items-center gap-1">📁 ประวัติคดี <span id="history-badge" class="bg-purple-900 border border-purple-500 text-purple-200 text-[10px] px-1.5 rounded-full">0</span></button>
+        <button onclick="switchTab(5)" id="btn-tab-5" class="tab-btn px-3 md:px-4 py-2 rounded-lg font-bold text-xs bg-slate-900 text-blue-400 hover:bg-slate-800 cursor-pointer flex items-center gap-1">📢 คำสั่งประกาศ</button>
     </div>
 
     <!-- Custom Neon Confirm Modal Dialog -->
@@ -599,7 +730,7 @@
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.getElementById('tab-content-' + id).classList.remove('hidden');
             const mainForm = document.getElementById('main-form-wrapper');
-            if(id === 3 || id === 4) mainForm.classList.add('hidden');
+            if(id === 3 || id === 4 || id === 5) mainForm.classList.add('hidden');
             else mainForm.classList.remove('hidden');
 
             document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -760,7 +891,6 @@
             document.getElementById('res-fine').innerText = grandTotalFine.toLocaleString();
             document.getElementById('res-time').innerText = finalTime;
 
-            // รวบรวมรายการตัวเลือกพิเศษ
             let outputArray = [...selectedCrimes];
             if (document.getElementById('car-wheel').checked) outputArray.push("ล้อโทนมืด");
             if (document.getElementById('car-color').checked) outputArray.push("สีรถโทนมืด");
@@ -770,7 +900,6 @@
 
             let resultString = outputArray.join(' + ');
             
-            // เพิ่มวงเล็บ แหวนแก๊ง และ หน่วยงาน
             if (document.getElementById('opt-fix').checked) {
                 resultString += (resultString.length > 0 ? " " : "") + "(แก้คดี)";
             }
@@ -795,7 +924,6 @@
             if (document.getElementById('car-color').checked) baseCrimesTitle += (baseCrimesTitle ? " + " : "") + "สีรถโทนมืด";
             if (document.getElementById('car-trade').checked) baseCrimesTitle += (baseCrimesTitle ? " + " : "") + "เทรดรถ";
             if (document.getElementById('opt-col').checked) baseCrimesTitle += (baseCrimesTitle ? " + " : "") + "สมรู้ร่วมคิด";
-            if (document.getElementById('opt-fix').checked) baseCrimesTitle += (baseCrimesTitle ? " + " : "") + "แก้คดี";
 
             if (document.getElementById('opt-fix').checked) {
                 baseCrimesTitle += (baseCrimesTitle ? " " : "") + "(แก้คดี)";
@@ -903,7 +1031,7 @@
         }
 
         let toastTimer = null;
-        function showToast(text = '📋 คัดลอกประวัติคดีเรียบร้อย!') {
+        function showToast(text = '📋 คัดลอกเรียบร้อย!') {
             const toast = document.getElementById("toast-notification");
             toast.innerText = text;
             toast.classList.add("show");
@@ -1017,6 +1145,29 @@
                     btn.className = originalClass;
                 }, 1500);
             });
+        }
+
+        function copyAnnounceText(buttonId, text) {
+            if (!text) return;
+
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(`📋 คัดลอกเรียบร้อย!`);
+                const btn = document.getElementById(buttonId);
+                const originalText = btn.innerText;
+                btn.innerText = "✓ คัดลอกแล้ว!";
+                btn.classList.add("bg-emerald-600", "text-white");
+                
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove("bg-emerald-600", "text-white");
+                }, 1500);
+            });
+        }
+
+        function copyDynamicAnnounce(buttonId, template, inputId) {
+            const numVal = document.getElementById(inputId)?.value || '?';
+            const textToCopy = template.replace('{num}', numVal);
+            copyAnnounceText(buttonId, textToCopy);
         }
 
         function resetSystem() {
