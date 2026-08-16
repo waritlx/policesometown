@@ -690,6 +690,7 @@
             { name: "หมิ่นประมาทหน่วยงาน", fine: 40000, time: 40, nb: true },
             { name: "ขโมยรถหน่วยงาน", fine: 50000, time: 50, nb: true },
             { name: "ทำร้ายร่างกายหน่วยงาน", fine: 50000, time: 60, nb: true },
+            { name: "เจตนาฆ่าหน่วยงาน", fine: 60000, time: 60, nb: true },
             { name: "แอบอ้างเป็นหน่วยงาน", fine: 100000, time: 60, nb: true },
             { name: "ไม่ให้ความร่วมมือกับเจ้าหน้าที่", fine: 15000, time: 20, nb: true },
             { name: "ก่อกวนเจ้าหน้าที่", fine: 30000, time: 30, nb: true },
@@ -831,14 +832,14 @@
                         const amount = parseInt(document.getElementById('num-' + cb.id.replace('check-', '')).value) || 0;
                         baseFine += (fine * amount);
                         baseTime += (time * amount);
-                        selectedCrimes.push(`${displayTitle} ${amount}`);
+                        selectedCrimes.push(`${displayTitle}${amount}`);
                     } else if (type === 'pack10') {
                         const amount = parseInt(document.getElementById('num-' + cb.id.replace('check-', '')).value) || 0;
                         let pack = Math.floor(amount / 10);
                         if ((amount % 10) >= 5) { pack += 1; }
                         baseFine += (fine * pack);
                         baseTime += (time * pack);
-                        selectedCrimes.push(`${displayTitle} ${amount}`);
+                        selectedCrimes.push(`${displayTitle}${amount}`);
                     }
                 }
             });
@@ -898,16 +899,16 @@
             if (document.getElementById('opt-col').checked) outputArray.push("สมรู้ร่วมคิด");
             if ((isBailSelf || isBailRel) && outputArray.length > 0) outputArray.push("ประกัน");
 
-            let resultString = outputArray.join(' + ');
+            let resultString = outputArray.join('+');
             
             if (document.getElementById('opt-fix').checked) {
-                resultString += (resultString.length > 0 ? " " : "") + "(แก้คดี)";
+                resultString += "(แก้คดี)";
             }
             if (document.getElementById('opt-ring').checked) {
-                resultString += (resultString.length > 0 ? " " : "") + "(แหวนแก๊ง)";
+                resultString += "(แหวนแก๊ง)";
             }
             if (document.getElementById('opt-org').checked) {
-                resultString += (resultString.length > 0 ? " " : "") + "(หน่วยงาน)";
+                resultString += "(หน่วยงาน)";
             }
 
             const sideList = document.getElementById('side-list-crimes');
@@ -919,24 +920,24 @@
                 sideList.innerText = "ข้อหาจะแสดงที่นี่...";
             }
 
-            let baseCrimesTitle = selectedCrimes.join(' + ');
-            if (document.getElementById('car-wheel').checked) baseCrimesTitle += (baseCrimesTitle ? " + " : "") + "ล้อโทนมืด";
-            if (document.getElementById('car-color').checked) baseCrimesTitle += (baseCrimesTitle ? " + " : "") + "สีรถโทนมืด";
-            if (document.getElementById('car-trade').checked) baseCrimesTitle += (baseCrimesTitle ? " + " : "") + "เทรดรถ";
-            if (document.getElementById('opt-col').checked) baseCrimesTitle += (baseCrimesTitle ? " + " : "") + "สมรู้ร่วมคิด";
+            let baseCrimesTitle = selectedCrimes.join('+');
+            if (document.getElementById('car-wheel').checked) baseCrimesTitle += (baseCrimesTitle ? "+" : "") + "ล้อโทนมืด";
+            if (document.getElementById('car-color').checked) baseCrimesTitle += (baseCrimesTitle ? "+" : "") + "สีรถโทนมืด";
+            if (document.getElementById('car-trade').checked) baseCrimesTitle += (baseCrimesTitle ? "+" : "") + "เทรดรถ";
+            if (document.getElementById('opt-col').checked) baseCrimesTitle += (baseCrimesTitle ? "+" : "") + "สมรู้ร่วมคิด";
 
             if (document.getElementById('opt-fix').checked) {
-                baseCrimesTitle += (baseCrimesTitle ? " " : "") + "(แก้คดี)";
+                baseCrimesTitle += "(แก้คดี)";
             }
             if (document.getElementById('opt-ring').checked) {
-                baseCrimesTitle += (baseCrimesTitle ? " " : "") + "(แหวนแก๊ง)";
+                baseCrimesTitle += "(แหวนแก๊ง)";
             }
             if (document.getElementById('opt-org').checked) {
-                baseCrimesTitle += (baseCrimesTitle ? " " : "") + "(หน่วยงาน)";
+                baseCrimesTitle += "(หน่วยงาน)";
             }
 
             let noBailTitle = baseCrimesTitle;
-            let bailTitle = baseCrimesTitle ? baseCrimesTitle + " + ประกัน" : "";
+            let bailTitle = baseCrimesTitle ? baseCrimesTitle + "+ประกัน" : "";
 
             let autoBailCost = 0;
             if (baseTime > 5) {
