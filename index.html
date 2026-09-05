@@ -84,14 +84,15 @@
 
         .custom-checkbox {
             appearance: none;
-            width: 15px;
-            height: 15px;
-            border: 1px solid #1e293b;
+            width: 20px;
+            height: 20px;
+            border: 1.5px solid #1e293b;
             background-color: #0f172a;
             cursor: pointer;
             position: relative;
             flex-shrink: 0;
-            border-radius: 3px;
+            border-radius: 5px;
+            transition: all 0.15s ease;
         }
         .custom-checkbox:checked {
             background-color: #0084ff; 
@@ -101,11 +102,71 @@
             content: '✓';
             position: absolute;
             color: #fff;
-            font-size: 11px;
+            font-size: 13px;
             font-weight: bold;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+        }
+        input:focus-visible, button:focus-visible, .custom-checkbox:focus-visible {
+            outline: 2px solid #38bdf8;
+            outline-offset: 2px;
+        }
+
+        /* สรุปผลแบบติดขอบจอ (desktop) */
+        @media (min-width: 1024px) {
+            .summary-sticky { position: sticky; top: 1.5rem; align-self: flex-start; }
+        }
+
+        /* แถบค้นหาข้อหา */
+        .search-crime-bar {
+            background-color: #0b0d13;
+            border: 1px solid #1e293b;
+        }
+        .search-crime-bar:focus-within {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+        }
+
+        /* ป้ายจำนวนที่เลือกในแต่ละหมวด */
+        .category-count {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 9px;
+            border-radius: 999px;
+            background-color: #0b1f3a;
+            color: #38bdf8;
+            border: 1px solid #1e3a8a;
+        }
+        .category-count.is-empty { opacity: 0.4; }
+
+        /* ปุ่มเลือกด่วน / ล้างหมวด */
+        .chip-btn {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 8px;
+            background-color: #0f172a;
+            border: 1px solid #1e293b;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .chip-btn:hover {
+            border-color: #38bdf8;
+            color: #38bdf8;
+        }
+
+        .crime-row-hidden { display: none !important; }
+
+        /* แถบสรุปลอยบนมือถือ */
+        #mobile-mini-summary {
+            display: none;
+        }
+        @media (max-width: 1023px) {
+            #mobile-mini-summary {
+                display: flex;
+            }
         }
 
         .btn-bounce {
@@ -207,7 +268,17 @@
         <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#448aff] via-[#00bcff] to-[#0077ff] tracking-wide filter drop-shadow-[0_2px_8px_rgba(0,188,255,0.2)]">
             ระบบคิดค่าปรับ Some Town
         </h1>
+        <p class="text-xs text-slate-500 mt-2">เลือกข้อหา ระบบคำนวณค่าปรับและเวลาจำคุกให้อัตโนมัติ</p>
         <div class="w-32 h-[3px] mt-3 rounded-full bg-gradient-to-r from-[#1e40af] via-[#00bcff] to-[#1e3a8a] shadow-[0_0_10px_rgba(0,188,255,0.5)]"></div>
+    </div>
+
+    <!-- แถบสรุปย่อลอย (มือถือ) -->
+    <div id="mobile-mini-summary" class="fixed bottom-[64px] left-0 right-0 z-30 items-center justify-between gap-3 bg-[#070a10]/95 backdrop-blur border-t border-cyan-900/50 px-4 py-2 lg:hidden">
+        <div class="flex items-center gap-4 text-xs">
+            <span class="text-slate-400">ยอดปรับ: <b id="mini-res-fine" class="text-cyan-400 text-sm">0</b></span>
+            <span class="text-slate-400">เวลา: <b id="mini-res-time" class="text-cyan-400 text-sm">0</b> นาที</span>
+        </div>
+        <button onclick="document.getElementById('summary-panel').scrollIntoView({behavior:'smooth', block:'start'})" class="chip-btn !text-cyan-400 !border-cyan-800">ดูสรุป ↓</button>
     </div>
 
     <div class="max-w-7xl mx-auto">
@@ -216,10 +287,21 @@
             <div class="lg:col-span-2 space-y-6">
                 <!-- แท็บ 1 -->
                 <div id="tab-content-1" class="tab-content space-y-6">
+                    <!-- ค้นหาข้อหา -->
+                    <div class="search-crime-bar rounded-xl flex items-center gap-2 px-4 py-3 transition-all">
+                        <span class="text-slate-500">🔍</span>
+                        <input type="text" id="search-crime-1" oninput="filterCrimeList('tab-content-1', this.value)" placeholder="ค้นหาข้อหาในหมวดนี้..." class="w-full bg-transparent text-sm text-gray-200 placeholder-slate-500 focus:outline-none">
+                    </div>
                     <!-- หมวดงานดำ -->
                     <div class="bg-card p-5 rounded-xl shadow-lg">
-                        <h2 class="text-base font-bold text-cyan-400 mb-4 flex items-center gap-2">🔷 หมวดสิ่งผิดกฎหมาย / งานดำ</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-base font-bold text-cyan-400 flex items-center gap-2">🔷 หมวดสิ่งผิดกฎหมาย / งานดำ</h2>
+                            <div class="flex items-center gap-2">
+                                <span class="category-count is-empty" data-count-for="cat-illegal">0 รายการ</span>
+                                <button type="button" class="chip-btn" onclick="clearCategory('cat-illegal')">ล้างหมวดนี้</button>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3" data-category="cat-illegal">
                             <label class="flex items-center justify-between p-3 bg-subcard rounded-xl cursor-pointer">
                                 <span class="flex items-center gap-3 text-sm w-full">
                                     <input type="checkbox" class="crime-checkbox custom-checkbox" data-fine="1000" data-time="5" data-name="จกพลาด" data-type="normal">
@@ -304,8 +386,14 @@
 
                     <!-- หมวดพื้นที่หลบหนี -->
                     <div class="bg-card p-5 rounded-xl shadow-lg">
-                        <h2 class="text-base font-bold text-cyan-400 mb-4 flex items-center gap-2">🌐 หมวดพื้นที่หลบหนี</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-base font-bold text-cyan-400 flex items-center gap-2">🌐 หมวดพื้นที่หลบหนี</h2>
+                            <div class="flex items-center gap-2">
+                                <span class="category-count is-empty" data-count-for="cat-escape">0 รายการ</span>
+                                <button type="button" class="chip-btn" onclick="clearCategory('cat-escape')">ล้างหมวดนี้</button>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3" data-category="cat-escape">
                             <label class="p-3 bg-subcard rounded-xl flex items-center gap-3 cursor-pointer text-sm"><input type="checkbox" id="area-risk" class="crime-checkbox custom-checkbox" data-fine="5000" data-time="5" data-name="พื้นที่สุ่มเสี่ยง" data-type="normal"><div><p class="font-medium">พื้นที่สุ่มเสี่ยง</p><p class="text-xs text-blue-400">5,000 | 5 นาที</p></div></label>
                             <label class="p-3 bg-subcard rounded-xl flex items-center gap-3 cursor-pointer text-sm"><input type="checkbox" id="area-city" class="crime-checkbox custom-checkbox" data-fine="2000" data-time="5" data-name="หลบหนีในเมือง" data-type="normal"><div><p class="font-medium">หลบหนีในเมือง</p><p class="text-xs text-blue-400">2,000 | 5 นาที</p></div></label>
                             <label class="p-3 bg-subcard rounded-xl flex items-center gap-3 cursor-pointer text-sm"><input type="checkbox" id="area-out" class="crime-checkbox custom-checkbox" data-fine="5000" data-time="5" data-name="หลบหนีนอกเมือง" data-type="normal"><div><p class="font-medium">หลบหนีนอกเมือง</p><p class="text-xs text-blue-400">5,000 | 5 นาที</p></div></label>
@@ -321,13 +409,35 @@
 
                 <!-- แท็บ 2 -->
                 <div id="tab-content-2" class="tab-content space-y-6 hidden">
-                    <div class="bg-card p-5 rounded-xl"><h2 class="text-base font-bold text-cyan-400 mb-4 flex items-center gap-2">🔷 หมวดที่ 2 การก่อเหตุฯ</h2><div id="m2-list" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm"></div></div>
-                    <div class="bg-card p-5 rounded-xl border border-blue-900/40"><h2 class="text-base font-bold text-cyan-400 mb-4 flex items-center gap-2">🚔 หมวดที่ 3 เกี่ยวกับหน่วยงาน (ไม่ให้ประกัน)</h2><div id="m3-list" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm"></div></div>
+                    <div class="search-crime-bar rounded-xl flex items-center gap-2 px-4 py-3 transition-all">
+                        <span class="text-slate-500">🔍</span>
+                        <input type="text" id="search-crime-2" oninput="filterCrimeList('tab-content-2', this.value)" placeholder="ค้นหาข้อหาในหมวดนี้..." class="w-full bg-transparent text-sm text-gray-200 placeholder-slate-500 focus:outline-none">
+                    </div>
+                    <div class="bg-card p-5 rounded-xl">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-base font-bold text-cyan-400 flex items-center gap-2">🔷 หมวดที่ 2 การก่อเหตุฯ</h2>
+                            <div class="flex items-center gap-2">
+                                <span class="category-count is-empty" data-count-for="cat-m2">0 รายการ</span>
+                                <button type="button" class="chip-btn" onclick="clearCategory('cat-m2')">ล้างหมวดนี้</button>
+                            </div>
+                        </div>
+                        <div id="m2-list" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm" data-category="cat-m2"></div>
+                    </div>
+                    <div class="bg-card p-5 rounded-xl border border-blue-900/40">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-base font-bold text-cyan-400 flex items-center gap-2">🚔 หมวดที่ 3 เกี่ยวกับหน่วยงาน (ไม่ให้ประกัน)</h2>
+                            <div class="flex items-center gap-2">
+                                <span class="category-count is-empty" data-count-for="cat-m3">0 รายการ</span>
+                                <button type="button" class="chip-btn" onclick="clearCategory('cat-m3')">ล้างหมวดนี้</button>
+                            </div>
+                        </div>
+                        <div id="m3-list" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm" data-category="cat-m3"></div>
+                    </div>
                 </div>
             </div>
 
             <!-- ฝั่งขวาสรุปคำนวณ -->
-            <div class="space-y-4">
+            <div id="summary-panel" class="space-y-4 summary-sticky">
                 <div class="bg-card p-4 rounded-xl space-y-3">
                     <h3 class="text-sm font-bold text-cyan-400 flex items-center gap-2">🚗 โทษแต่งรถ</h3>
                     <div class="grid grid-cols-3 gap-2 text-xs">
@@ -445,6 +555,22 @@
                         </button>
                     </div>
 
+                    <!-- 1.5 ประกาศ, [ข้อความที่พิมพ์เอง] -->
+                    <div class="bg-subcard p-4 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-slate-800">
+                        <div class="flex-1 w-full">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">ประกาศข้อความกำหนดเอง</span>
+                            </div>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="text-sm font-semibold text-gray-200">/ประกาศ,</span>
+                                <input type="text" id="announce-custom-text" placeholder="พิมพ์ข้อความที่ต้องการประกาศ..." class="flex-1 min-w-[180px] bg-slate-900 border border-slate-700 text-gray-200 rounded p-1.5 text-sm focus:outline-none focus:border-cyan-400" onkeydown="if(event.key==='Enter'){ event.preventDefault(); copyCustomAnnounce('announce-cmd-1-5','announce-custom-text'); }">
+                            </div>
+                        </div>
+                        <button onclick="copyCustomAnnounce('announce-cmd-1-5','announce-custom-text')" id="announce-cmd-1-5" class="btn-bounce w-full md:w-auto bg-slate-800 hover:bg-slate-700 text-gray-200 font-bold py-2.5 px-5 rounded-xl text-xs flex items-center justify-center gap-2 cursor-pointer border border-slate-700 transition-all duration-300 whitespace-nowrap">
+                            📋 คัดลอก
+                        </button>
+                    </div>
+
                     <!-- 2. ประกาศ, ตำรวจเข้าเวรเพิ่ม 1 ท่านนะครับ -->
                     <div class="bg-subcard p-4 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-slate-800">
                         <div class="flex-1 w-full">
@@ -547,10 +673,10 @@
 
     <!-- แถบเมนูล่าง -->
     <div class="fixed bottom-0 left-0 right-0 bg-[#04060b] border-t border-slate-900 p-3 flex justify-center gap-2 md:gap-4 z-40 overflow-x-auto">
-        <button onclick="switchTab(1)" id="btn-tab-1" class="tab-btn px-3 md:px-4 py-2 rounded-lg font-bold text-xs bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-md cursor-pointer">📊 งานดำ / หลบหนี</button>
-        <button onclick="switchTab(2)" id="btn-tab-2" class="tab-btn px-3 md:px-4 py-2 rounded-lg font-bold text-xs bg-slate-900 text-gray-400 hover:bg-slate-800 cursor-pointer">🚨 จับเหตุซึ่งหน้า</button>
-        <button onclick="switchTab(4)" id="btn-tab-4" class="tab-btn px-3 md:px-4 py-2 rounded-lg font-bold text-xs bg-slate-900 text-purple-400 hover:bg-slate-800 cursor-pointer flex items-center gap-1">📁 ประวัติคดี <span id="history-badge" class="bg-purple-900 border border-purple-500 text-purple-200 text-[10px] px-1.5 rounded-full">0</span></button>
-        <button onclick="switchTab(5)" id="btn-tab-5" class="tab-btn px-3 md:px-4 py-2 rounded-lg font-bold text-xs bg-slate-900 text-blue-400 hover:bg-slate-800 cursor-pointer flex items-center gap-1">📢 คำสั่งประกาศ</button>
+        <button onclick="switchTab(1); syncMiniSummaryVisibility(1)" id="btn-tab-1" class="tab-btn px-3 md:px-4 py-2 rounded-lg font-bold text-xs bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-md cursor-pointer">📊 งานดำ / หลบหนี</button>
+        <button onclick="switchTab(2); syncMiniSummaryVisibility(2)" id="btn-tab-2" class="tab-btn px-3 md:px-4 py-2 rounded-lg font-bold text-xs bg-slate-900 text-gray-400 hover:bg-slate-800 cursor-pointer">🚨 จับเหตุซึ่งหน้า</button>
+        <button onclick="switchTab(4); syncMiniSummaryVisibility(4)" id="btn-tab-4" class="tab-btn px-3 md:px-4 py-2 rounded-lg font-bold text-xs bg-slate-900 text-purple-400 hover:bg-slate-800 cursor-pointer flex items-center gap-1">📁 ประวัติคดี <span id="history-badge" class="bg-purple-900 border border-purple-500 text-purple-200 text-[10px] px-1.5 rounded-full">0</span></button>
+        <button onclick="switchTab(5); syncMiniSummaryVisibility(5)" id="btn-tab-5" class="tab-btn px-3 md:px-4 py-2 rounded-lg font-bold text-xs bg-slate-900 text-blue-400 hover:bg-slate-800 cursor-pointer flex items-center gap-1">📢 คำสั่งประกาศ</button>
     </div>
 
     <!-- Custom Neon Confirm Modal Dialog -->
@@ -1026,6 +1152,13 @@
             });
         }
 
+        function copyCustomAnnounce(buttonId, inputId) {
+            const val = (document.getElementById(inputId)?.value || '').trim();
+            if (!val) return;
+            const textToCopy = `/ประกาศ, ${val}`;
+            copyAnnounceText(buttonId, textToCopy);
+        }
+
         function copyDynamicAnnounce(buttonId, template, inputId) {
             const numVal = document.getElementById(inputId)?.value || '?';
             const textToCopy = template.replace('{num}', numVal);
@@ -1045,8 +1178,61 @@
         document.addEventListener('change', () => runCalculation());
         document.addEventListener('input', () => runCalculation());
 
+        // ===== ส่วนเสริมเพื่อความง่ายในการใช้งาน (ไม่แตะ logic การคำนวณเดิม) =====
+        function filterCrimeList(containerId, query) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const q = query.trim().toLowerCase();
+            container.querySelectorAll('label').forEach(label => {
+                if (!label.querySelector('.crime-checkbox')) return;
+                const nameEl = label.querySelector('p.font-medium');
+                const text = (nameEl ? nameEl.innerText : label.innerText).toLowerCase();
+                label.classList.toggle('crime-row-hidden', q !== '' && !text.includes(q));
+            });
+        }
+
+        function clearCategory(categoryId) {
+            document.querySelectorAll(`[data-category="${categoryId}"] .crime-checkbox`).forEach(cb => {
+                if (!cb.disabled) cb.checked = false;
+            });
+            runCalculation();
+            updateCategoryCounts();
+            updateMiniSummary();
+        }
+
+        function updateCategoryCounts() {
+            document.querySelectorAll('[data-category]').forEach(container => {
+                const catId = container.getAttribute('data-category');
+                const badge = document.querySelector(`[data-count-for="${catId}"]`);
+                if (!badge) return;
+                const checked = container.querySelectorAll('.crime-checkbox:checked').length;
+                badge.innerText = checked + ' รายการ';
+                badge.classList.toggle('is-empty', checked === 0);
+            });
+        }
+
+        function syncMiniSummaryVisibility(id) {
+            const bar = document.getElementById('mobile-mini-summary');
+            if (!bar) return;
+            bar.style.display = (id === 4 || id === 5) ? 'none' : '';
+        }
+
+        function updateMiniSummary() {
+            const fineEl = document.getElementById('res-fine');
+            const timeEl = document.getElementById('res-time');
+            const miniFine = document.getElementById('mini-res-fine');
+            const miniTime = document.getElementById('mini-res-time');
+            if (fineEl && miniFine) miniFine.innerText = fineEl.innerText;
+            if (timeEl && miniTime) miniTime.innerText = timeEl.innerText;
+        }
+
+        document.addEventListener('change', () => { updateCategoryCounts(); updateMiniSummary(); });
+        document.addEventListener('input', () => { updateCategoryCounts(); updateMiniSummary(); });
+
         updateBadgeCount();
         runCalculation();
+        updateCategoryCounts();
+        updateMiniSummary();
     </script>
 </body>
 </html>
