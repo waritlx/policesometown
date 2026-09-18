@@ -257,12 +257,163 @@
             opacity: 1;
             top: 40px;
         }
+        /* ========================================================= */
+        /* ธีมสีขาว (Light mode) — สลับด้วยปุ่มมุมซ้ายบน               */
+        /* ========================================================= */
+        html.light-mode body {
+            background-color: #eef1f5;
+            color: #1f2937;
+        }
+        html.light-mode .bg-card { background-color: #ffffff; border-color: #2563eb; }
+        html.light-mode .bg-subcard {
+            background-color: #f8fafc;
+            border-color: #cbd5e1;
+        }
+        html.light-mode .bg-subcard:hover {
+            background-color: #eff6ff;
+            border-color: #93c5fd;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12);
+        }
+        html.light-mode .bg-subcard:has(input:checked) {
+            border-color: #2563eb !important;
+            background-color: #dbeafe !important;
+            box-shadow: 0 0 12px rgba(37, 99, 235, 0.2) !important;
+        }
+        html.light-mode label:has(input:disabled):hover {
+            background-color: #f1f5f9 !important;
+            border-color: #cbd5e1 !important;
+        }
+        html.light-mode .summary-box-neon {
+            background: linear-gradient(145deg, #ffffff, #eef2ff);
+            border-color: #2563eb;
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.12), inset 0 0 10px rgba(37, 99, 235, 0.03);
+        }
+        html.light-mode .summary-box-neon:hover {
+            box-shadow: 0 0 22px rgba(37, 99, 235, 0.18), inset 0 0 12px rgba(37, 99, 235, 0.05);
+        }
+        html.light-mode .head-history-neon { background: linear-gradient(90deg, #ede9fe, #f8fafc); }
+        html.light-mode .head-announce-neon { background: linear-gradient(90deg, #dbeafe, #f8fafc); }
+        html.light-mode .car-btn-dark { background-color: #f8fafc; border-color: #cbd5e1; }
+        html.light-mode .car-btn-dark:hover { background-color: #eff6ff; }
+        html.light-mode .custom-checkbox { background-color: #ffffff; border-color: #cbd5e1; }
+        html.light-mode .custom-checkbox:checked {
+            background-color: #2563eb !important;
+            border-color: #1d4ed8 !important;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+        }
+        html.light-mode .custom-checkbox:checked::after {
+            color: #ffffff !important;
+        }
+        html.light-mode .search-crime-bar { background-color: #ffffff; border-color: #cbd5e1; }
+        html.light-mode .search-crime-bar:focus-within {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+        html.light-mode .category-count { background-color: #dbeafe; color: #1d4ed8; border-color: #93c5fd; }
+        html.light-mode .chip-btn { background-color: #f1f5f9; border-color: #cbd5e1; color: #475569; }
+        html.light-mode .chip-btn:hover { border-color: #2563eb; color: #2563eb; }
+        html.light-mode .toast-notification {
+            background-color: #ffffff;
+            color: #1f2937;
+            border-color: #2563eb;
+        }
+        html.light-mode .theme-nav-blur { background-color: rgba(255, 255, 255, 0.96) !important; border-top-color: #cbd5e1 !important; }
+        html.light-mode .theme-surface-deep { background-color: #f8fafc !important; }
+        html.light-mode .theme-nav { background-color: #ffffff !important; border-top-color: #e2e8f0 !important; box-shadow: 0 -2px 10px rgba(0,0,0,0.06); }
+        html.light-mode .theme-modal { background-color: #ffffff !important; }
+        html.light-mode .theme-divide > :not([hidden]) ~ :not([hidden]) { border-color: #e2e8f0 !important; }
+
+        /* สีตัวอักษร / เส้นขอบพื้นฐาน */
+        html.light-mode .text-gray-200,
+        html.light-mode .text-gray-300 { color: #1f2937 !important; }
+        html.light-mode .text-gray-400,
+        html.light-mode .text-slate-400,
+        html.light-mode .text-slate-500,
+        html.light-mode .placeholder-slate-500::placeholder { color: #64748b !important; }
+        html.light-mode .text-cyan-400 { color: #0e7490 !important; }
+        html.light-mode .text-blue-300,
+        html.light-mode .text-blue-400 { color: #2563eb !important; }
+        html.light-mode .text-purple-200,
+        html.light-mode .text-purple-300,
+        html.light-mode .text-purple-400 { color: #7e22ce !important; }
+        html.light-mode .text-red-300,
+        html.light-mode .text-red-400,
+        html.light-mode .text-red-500 { color: #dc2626 !important; }
+        html.light-mode .text-green-400 { color: #16a34a !important; }
+
+        html.light-mode .bg-slate-900,
+        html.light-mode .bg-slate-950,
+        html.light-mode .bg-slate-900\/80,
+        html.light-mode .bg-slate-900\/50 { background-color: #f1f5f9 !important; }
+        html.light-mode .bg-slate-800,
+        html.light-mode .bg-slate-700 { background-color: #e2e8f0 !important; }
+        html.light-mode .bg-red-950,
+        html.light-mode .bg-red-950\/80,
+        html.light-mode .bg-red-900 { background-color: #fee2e2 !important; }
+
+        html.light-mode .border-slate-700,
+        html.light-mode .border-slate-800,
+        html.light-mode .border-slate-900 { border-color: #cbd5e1 !important; }
+
+        /* ปุ่มสลับธีม */
+        #theme-toggle-btn {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 60;
+            width: 64px;
+            height: 34px;
+            padding: 3px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            background-color: #141822;
+            border: 1.5px solid #286aee;
+            cursor: pointer;
+            box-shadow: 0 0 12px rgba(0, 132, 255, 0.25);
+            transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+        #theme-toggle-btn:hover { box-shadow: 0 0 16px rgba(0, 132, 255, 0.4); }
+        #theme-toggle-btn .toggle-knob {
+            width: 26px;
+            height: 26px;
+            border-radius: 999px;
+            background-color: #0b0d13;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: transform 0.25s ease;
+            transform: translateX(0);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        }
+        html.light-mode #theme-toggle-btn {
+            background-color: #dbeafe;
+            border-color: #2563eb;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+        }
+        html.light-mode #theme-toggle-btn .toggle-knob {
+            background-color: #ffffff;
+            transform: translateX(30px);
+        }
+
+        /* โลโก้: พื้นของไฟล์เป็นแบบโปร่งใสอยู่แล้ว แค่ตอนธีมขาวต้องปิด mix-blend-lighten
+           (เพราะ blend แบบนี้ถูกออกแบบมาให้เข้ากับพื้นหลังสีเข้มเท่านั้น) ไม่ต้องมีกรอบ/แผ่นรองใด ๆ */
+        html.light-mode #main-logo {
+            mix-blend-mode: normal;
+            filter: drop-shadow(0 6px 16px rgba(37, 99, 235, 0.22));
+        }
     </style>
 </head>
 <body class="text-gray-200 min-h-screen p-6 pb-24 select-none">
 
+    <button id="theme-toggle-btn" onclick="toggleTheme()" title="สลับธีมสี" aria-label="สลับธีมสี">
+        <span class="toggle-knob">🌙</span>
+    </button>
+
     <div class="max-w-7xl mx-auto mb-8 flex flex-col items-center justify-center text-center select-none">
-        <img src="1000018386.png" 
+        <img id="main-logo" src="1000018386.png" 
              alt="Police Some Town Logo" 
              class="w-56 h-auto mb-3 filter drop-shadow-[0_0_20px_rgba(0,188,255,0.45)] mix-blend-lighten">
         <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#448aff] via-[#00bcff] to-[#0077ff] tracking-wide filter drop-shadow-[0_2px_8px_rgba(0,188,255,0.2)]">
@@ -273,7 +424,7 @@
     </div>
 
     <!-- แถบสรุปย่อลอย (มือถือ) -->
-    <div id="mobile-mini-summary" class="fixed bottom-[64px] left-0 right-0 z-30 items-center justify-between gap-3 bg-[#070a10]/95 backdrop-blur border-t border-cyan-900/50 px-4 py-2 lg:hidden">
+    <div id="mobile-mini-summary" class="theme-nav-blur fixed bottom-[64px] left-0 right-0 z-30 items-center justify-between gap-3 bg-[#070a10]/95 backdrop-blur border-t border-cyan-900/50 px-4 py-2 lg:hidden">
         <div class="flex items-center gap-4 text-xs">
             <span class="text-slate-400">ยอดปรับ: <b id="mini-res-fine" class="text-cyan-400 text-sm">0</b></span>
             <span class="text-slate-400">เวลา: <b id="mini-res-time" class="text-cyan-400 text-sm">0</b> นาที</span>
@@ -504,7 +655,7 @@
                     </div>
                 </div>
                 
-                <div class="p-4 bg-[#03060c]/90 overflow-x-auto min-h-[300px]">
+                <div class="theme-surface-deep p-4 bg-[#03060c]/90 overflow-x-auto min-h-[300px]">
                     <table class="w-full text-left text-xs text-gray-300">
                         <thead class="bg-slate-900/80 text-purple-400 font-bold border-b border-slate-800">
                             <tr>
@@ -516,7 +667,7 @@
                                 <th class="p-3 text-center">จัดการ</th>
                             </tr>
                         </thead>
-                        <tbody id="history-table-body" class="divide-y divide-slate-800/50">
+                        <tbody id="history-table-body" class="theme-divide divide-y divide-slate-800/50">
                         </tbody>
                     </table>
                     <div id="history-empty" class="text-center py-12 text-slate-500 hidden">
@@ -537,7 +688,7 @@
                     </div>
                 </div>
                 
-                <div class="p-6 bg-[#03060c]/90 space-y-4">
+                <div class="theme-surface-deep p-6 bg-[#03060c]/90 space-y-4">
                     <!-- 1. ประกาศทุกเซิร์ฟ, ตำรวจเข้าเวรเซิฟ ? นะครับ -->
                     <div class="bg-subcard p-4 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-blue-900/40">
                         <div class="flex-1 w-full">
@@ -616,13 +767,19 @@
                         </button>
                     </div>
 
-                    <!-- 5. ประกาศ, ตำรวจเล่นแอร์นะครับ -->
+                    <!-- 5. ประกาศ, ตำรวจเล่นแอร์ 1 ท่านนะครับ -->
                     <div class="bg-subcard p-4 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-slate-800">
-                        <div>
-                            <span class="text-xs text-slate-400 block mb-1">ประกาศเล่นแอร์</span>
-                            <span class="text-sm font-semibold text-gray-200">/ประกาศ, ตำรวจเล่นแอร์นะครับ</span>
+                        <div class="flex-1 w-full">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-xs text-slate-400 block">ประกาศเล่นแอร์ (จำนวนท่าน)</span>
+                            </div>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="text-sm font-semibold text-gray-200">/ประกาศ, ตำรวจเล่นแอร์</span>
+                                <input type="text" id="announce-num-5" value="1" class="w-16 bg-slate-900 border border-slate-700 text-center text-cyan-400 font-bold rounded p-1 text-sm focus:outline-none focus:border-cyan-400" placeholder="จำนวน">
+                                <span class="text-sm font-semibold text-gray-200">ท่านนะครับ</span>
+                            </div>
                         </div>
-                        <button onclick="copyAnnounceText('announce-cmd-5', '/ประกาศ, ตำรวจเล่นแอร์นะครับ')" id="announce-cmd-5" class="btn-bounce w-full md:w-auto bg-slate-800 hover:bg-slate-700 text-gray-200 font-bold py-2.5 px-5 rounded-xl text-xs flex items-center justify-center gap-2 cursor-pointer border border-slate-700 transition-all duration-300 whitespace-nowrap">
+                        <button onclick="copyDynamicAnnounce('announce-cmd-5', '/ประกาศ, ตำรวจเล่นแอร์ {num} ท่านนะครับ', 'announce-num-5')" id="announce-cmd-5" class="btn-bounce w-full md:w-auto bg-slate-800 hover:bg-slate-700 text-gray-200 font-bold py-2.5 px-5 rounded-xl text-xs flex items-center justify-center gap-2 cursor-pointer border border-slate-700 transition-all duration-300 whitespace-nowrap">
                             📋 คัดลอก
                         </button>
                     </div>
@@ -672,7 +829,7 @@
     </div>
 
     <!-- แถบเมนูล่าง -->
-    <div class="fixed bottom-0 left-0 right-0 bg-[#04060b] border-t border-slate-900 p-3 flex justify-center gap-2 md:gap-4 z-40 overflow-x-auto">
+    <div class="theme-nav fixed bottom-0 left-0 right-0 bg-[#04060b] border-t border-slate-900 p-3 flex justify-center gap-2 md:gap-4 z-40 overflow-x-auto">
         <button onclick="switchTab(1); syncMiniSummaryVisibility(1)" id="btn-tab-1" class="tab-btn px-3 md:px-4 py-2 rounded-lg font-bold text-xs bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-md cursor-pointer">📊 งานดำ / หลบหนี</button>
         <button onclick="switchTab(2); syncMiniSummaryVisibility(2)" id="btn-tab-2" class="tab-btn px-3 md:px-4 py-2 rounded-lg font-bold text-xs bg-slate-900 text-gray-400 hover:bg-slate-800 cursor-pointer">🚨 จับเหตุซึ่งหน้า</button>
         <button onclick="switchTab(4); syncMiniSummaryVisibility(4)" id="btn-tab-4" class="tab-btn px-3 md:px-4 py-2 rounded-lg font-bold text-xs bg-slate-900 text-purple-400 hover:bg-slate-800 cursor-pointer flex items-center gap-1">📁 ประวัติคดี <span id="history-badge" class="bg-purple-900 border border-purple-500 text-purple-200 text-[10px] px-1.5 rounded-full">0</span></button>
@@ -681,7 +838,7 @@
 
     <!-- Custom Neon Confirm Modal Dialog -->
     <div id="custom-modal-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-[#0b0f19] border-2 border-red-500/80 rounded-2xl p-6 max-w-sm w-full text-center shadow-[0_0_30px_rgba(239,68,68,0.35)] animate-modal-in relative overflow-hidden">
+        <div class="theme-modal bg-[#0b0f19] border-2 border-red-500/80 rounded-2xl p-6 max-w-sm w-full text-center shadow-[0_0_30px_rgba(239,68,68,0.35)] animate-modal-in relative overflow-hidden">
             <div class="absolute -top-12 -left-12 w-24 h-24 bg-red-500/20 rounded-full blur-xl pointer-events-none"></div>
             <div class="absolute -bottom-12 -right-12 w-24 h-24 bg-purple-500/20 rounded-full blur-xl pointer-events-none"></div>
 
@@ -1228,6 +1385,24 @@
 
         document.addEventListener('change', () => { updateCategoryCounts(); updateMiniSummary(); });
         document.addEventListener('input', () => { updateCategoryCounts(); updateMiniSummary(); });
+
+        // ===== สลับธีมสี (ดำ/ขาว) =====
+        function toggleTheme() {
+            const isLight = document.documentElement.classList.toggle('light-mode');
+            const knob = document.querySelector('#theme-toggle-btn .toggle-knob');
+            if (knob) knob.innerText = isLight ? '☀️' : '🌙';
+            try { localStorage.setItem('someTownTheme', isLight ? 'light' : 'dark'); } catch (e) {}
+        }
+
+        (function initTheme() {
+            let saved = null;
+            try { saved = localStorage.getItem('someTownTheme'); } catch (e) {}
+            if (saved === 'light') {
+                document.documentElement.classList.add('light-mode');
+                const knob = document.querySelector('#theme-toggle-btn .toggle-knob');
+                if (knob) knob.innerText = '☀️';
+            }
+        })();
 
         updateBadgeCount();
         runCalculation();
