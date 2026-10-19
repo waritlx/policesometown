@@ -535,8 +535,8 @@
 
                             <label class="flex items-center justify-between p-3 bg-subcard rounded-xl cursor-pointer">
                                 <span class="flex items-center gap-3 text-sm w-full">
-                                    <input type="checkbox" class="crime-checkbox custom-checkbox" data-fine="10000" data-time="10" data-name="ไม่ให้ความร่วมมือกับเจ้าหน้าที่" data-type="normal" data-nobail="true">
-                                    <div><p class="font-medium text-gray-200">ไม่ให้ความร่วมมือกับเจ้าหน้าที่</p><p class="text-xs text-blue-400">10,000 | 10 นาที <span class="text-red-500 font-bold ml-1">(ไม่ให้ประกัน)</span></p></div>
+                                    <input type="checkbox" class="crime-checkbox custom-checkbox" data-fine="15000" data-time="20" data-name="ไม่ให้ความร่วมมือกับเจ้าหน้าที่" data-type="normal" data-nobail="true">
+                                    <div><p class="font-medium text-gray-200">ไม่ให้ความร่วมมือกับเจ้าหน้าที่</p><p class="text-xs text-blue-400">15,000 | 20 นาที <span class="text-red-500 font-bold ml-1">(ไม่ให้ประกัน)</span></p></div>
                                 </span>
                             </label>
                         </div>
@@ -969,6 +969,12 @@
         let globalShortCrimesText = "";
         let currentCalculatedData = {};
 
+        // ลำดับที่ติ๊กเลือกข้อหา (ข้อหาที่ติ๊กก่อนจะขึ้นในข้อความก่อน)
+        let selectionOrder = [];
+        // รายการที่ยังนับค่าปรับ/เวลา แต่ไม่แสดงในช่องข้อความ (หลังติ๊กสมรู้ร่วมคิด)
+        let textExcluded = new Set();
+        let prevColChecked = false;
+
         function runCalculation() {
             const areaRisk = document.getElementById('area-risk');       
             const areaCity = document.getElementById('area-city');       
@@ -1015,13 +1021,29 @@
                 }
             }
 
+            // --- จัดลำดับข้อหาตามที่ติ๊ก + จัดการการซ่อนข้อความเมื่อติ๊กสมรู้ร่วมคิด ---
+            const colChecked = document.getElementById('opt-col').checked;
+            selectionOrder = selectionOrder.filter(cb => cb.checked);
+            document.querySelectorAll('.crime-checkbox').forEach(cb => {
+                if (cb.checked && !selectionOrder.includes(cb)) selectionOrder.push(cb);
+            });
+            const carBoxes = ['car-wheel', 'car-color', 'car-trade'].map(id => document.getElementById(id));
+            if (colChecked && !prevColChecked) {
+                selectionOrder.forEach(cb => textExcluded.add(cb));
+                carBoxes.forEach(cb => { if (cb.checked) textExcluded.add(cb); });
+            } else if (!colChecked && prevColChecked) {
+                textExcluded.clear();
+            }
+            prevColChecked = colChecked;
+            textExcluded.forEach(cb => { if (!cb.checked) textExcluded.delete(cb); });
+
             let baseFine = 0;
             let baseTime = 0;
             let carMultiplier = 0; 
             let selectedCrimes = [];
             let hasNoBailCrime = false;
 
-            document.querySelectorAll('.crime-checkbox').forEach(cb => {
+            selectionOrder.forEach(cb => {
                 if (cb.checked) {
                     const type = cb.getAttribute('data-type');
                     const fine = parseInt(cb.getAttribute('data-fine')) || 0;
@@ -1036,19 +1058,19 @@
                     if (type === 'normal') {
                         baseFine += fine;
                         baseTime += time;
-                        selectedCrimes.push(displayTitle);
+                        if (!textExcluded.has(cb)) selectedCrimes.push(displayTitle);
                     } else if (type === 'piece') {
                         const amount = parseInt(document.getElementById('num-' + cb.id.replace('check-', '')).value) || 0;
                         baseFine += (fine * amount);
                         baseTime += (time * amount);
-                        selectedCrimes.push(`${displayTitle}${amount}`);
+                        if (!textExcluded.has(cb)) selectedCrimes.push(`${displayTitle}${amount}`);
                     } else if (type === 'pack10') {
                         const amount = parseInt(document.getElementById('num-' + cb.id.replace('check-', '')).value) || 0;
                         let pack = Math.floor(amount / 10);
                         if ((amount % 10) >= 5) { pack += 1; }
                         baseFine += (fine * pack);
                         baseTime += (time * pack);
-                        selectedCrimes.push(`${displayTitle}${amount}`);
+                        if (!textExcluded.has(cb)) selectedCrimes.push(`${displayTitle}${amount}`);
                     }
                 }
             });
@@ -1111,9 +1133,9 @@
             }
 
             let outputArray = [...selectedCrimes];
-            if (document.getElementById('car-wheel').checked) outputArray.push("ล้อโทนมืด");
-            if (document.getElementById('car-color').checked) outputArray.push("สีรถโทนมืด");
-            if (document.getElementById('car-trade').checked) outputArray.push("เทรดรถ");
+            if (carBoxes[0].checked && !textExcluded.has(carBoxes[0])) outputArray.push("ล้อโทนมืด");
+            if (carBoxes[1].checked && !textExcluded.has(carBoxes[1])) outputArray.push("สีรถโทนมืด");
+            if (carBoxes[2].checked && !textExcluded.has(carBoxes[2])) outputArray.push("เทรดรถ");
             if (document.getElementById('opt-col').checked) outputArray.push("สมรู้ร่วมคิด");
             if ((isBailSelf || isBailRel) && outputArray.length > 0) outputArray.push("ประกัน");
 
