@@ -57,6 +57,26 @@
             border-bottom: 2px solid #3b82f6;
         }
         
+        .sep-opt {
+            display: flex; align-items: center; justify-content: center;
+            min-width: 44px; padding: 4px 14px;
+            border-radius: 8px; border: 1px solid #1e293b;
+            background-color: #0f172a; color: #94a3b8;
+            font-weight: 800; font-size: 15px; cursor: pointer;
+            transition: all 0.15s ease; user-select: none; position: relative;
+        }
+        .sep-opt:hover { border-color: #38bdf8; color: #38bdf8; }
+        .sep-opt:has(input:checked) {
+            background-color: #0084ff; border-color: #38bdf8; color: #fff;
+            box-shadow: 0 0 10px rgba(0, 132, 255, 0.35);
+        }
+        .sep-opt input { position: absolute; opacity: 0; pointer-events: none; }
+        html.light-mode .sep-opt { background-color: #f1f5f9; border-color: #cbd5e1; color: #475569; }
+        html.light-mode .sep-opt:hover { border-color: #2563eb; color: #2563eb; }
+        html.light-mode .sep-opt:has(input:checked) {
+            background-color: #2563eb; border-color: #1d4ed8; color: #fff;
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
+        }
         .car-btn-dark { 
             background-color: #04060b; 
             border: 1px solid #131c2e; 
@@ -639,6 +659,14 @@
                         </label>
                     </div>
 
+                    <div class="flex items-center justify-between gap-3 text-xs text-gray-300">
+                        <span>เครื่องหมายคั่นข้อหา</span>
+                        <div class="flex items-center gap-2">
+                            <label class="sep-opt"><input type="radio" name="crime-sep" id="sep-plus" value="+" checked>+</label>
+                            <label class="sep-opt"><input type="radio" name="crime-sep" id="sep-slash" value="/">/</label>
+                        </div>
+                    </div>
+
                     <div id="side-list-crimes" class="h-20 bg-slate-950 rounded-lg p-2.5 text-sm text-gray-400 overflow-y-auto border border-slate-800">ข้อหาจะแสดงที่นี่...</div>
                     <div class="grid grid-cols-1 gap-2">
                         <button id="btn-main-copy" onclick="processCopyMain()" class="btn-bounce w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-extrabold py-3 rounded-lg text-sm shadow-md cursor-pointer transition-all duration-300 flex items-center justify-center gap-2">📄 คัดลอกข้อหา</button>
@@ -1139,7 +1167,7 @@
             if (document.getElementById('opt-col').checked) outputArray.push("สมรู้ร่วมคิด");
             if ((isBailSelf || isBailRel) && outputArray.length > 0) outputArray.push("ประกัน");
 
-            let resultString = outputArray.join('+');
+            let resultString = outputArray.join(getCrimeSeparator());
             
             if (document.getElementById('opt-fix').checked) {
                 resultString += "(แก้คดี)";
@@ -1352,6 +1380,22 @@
             copyAnnounceText(buttonId, textToCopy);
         }
 
+        function getCrimeSeparator() {
+            const slash = document.getElementById('sep-slash');
+            return (slash && slash.checked) ? '/' : '+';
+        }
+
+        function initCrimeSeparator() {
+            let saved = null;
+            try { saved = localStorage.getItem('some_town_separator'); } catch (e) {}
+            if (saved === '/') document.getElementById('sep-slash').checked = true;
+            document.querySelectorAll('input[name="crime-sep"]').forEach(r => {
+                r.addEventListener('change', () => {
+                    try { localStorage.setItem('some_town_separator', getCrimeSeparator()); } catch (e) {}
+                });
+            });
+        }
+
         function resetSystem() {
             document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
             document.getElementById('num-poon').value = 1;
@@ -1434,6 +1478,7 @@
             }
         })();
 
+        initCrimeSeparator();
         updateBadgeCount();
         runCalculation();
         updateCategoryCounts();
