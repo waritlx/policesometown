@@ -424,15 +424,213 @@
             mix-blend-mode: normal;
             filter: drop-shadow(0 6px 16px rgba(37, 99, 235, 0.22));
         }
+
+        /* ========================================================= */
+        /* ANIMATIONS                                                */
+        /* ========================================================= */
+        :root { --ring: rgba(56, 189, 248, 0.85); }
+        html.light-mode { --ring: rgba(37, 99, 235, 0.7); }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.94) translateY(8px); } to { opacity: 1; transform: none; } }
+        @keyframes slideUpIn { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: none; } }
+        @keyframes rowIn { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: none; } }
+        @keyframes logoIn { from { opacity: 0; transform: scale(0.7) translateY(-20px); } to { opacity: 1; transform: none; } }
+        @keyframes logoFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        @keyframes logoGlowDark {
+            0%, 100% { filter: drop-shadow(0 0 14px rgba(0, 188, 255, 0.35)); }
+            50% { filter: drop-shadow(0 0 30px rgba(0, 188, 255, 0.75)); }
+        }
+        @keyframes logoGlowLight {
+            0%, 100% { filter: drop-shadow(0 6px 12px rgba(37, 99, 235, 0.16)); }
+            50% { filter: drop-shadow(0 10px 24px rgba(37, 99, 235, 0.38)); }
+        }
+        @keyframes sirenRed { from { opacity: 1; } to { opacity: 0.12; } }
+        @keyframes sirenBlue { from { opacity: 0.12; } to { opacity: 1; } }
+        @keyframes checkPop { 0% { transform: scale(1); } 45% { transform: scale(1.28); } 100% { transform: scale(1); } }
+        @keyframes tickIn {
+            from { transform: translate(-50%, -50%) scale(0) rotate(-40deg); }
+            to { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+        }
+        @keyframes selectRing {
+            0% { outline: 2px solid var(--ring); outline-offset: 0; }
+            100% { outline: 2px solid transparent; outline-offset: 12px; }
+        }
+        @keyframes numBump {
+            0% { transform: scale(1); text-shadow: none; }
+            35% { transform: scale(1.14); text-shadow: 0 0 14px currentColor; }
+            100% { transform: scale(1); text-shadow: none; }
+        }
+        @keyframes warnShake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-5px); }
+            40% { transform: translateX(5px); }
+            60% { transform: translateX(-3px); }
+            80% { transform: translateX(3px); }
+        }
+        @keyframes shine { 0% { left: -60%; } 35%, 100% { left: 130%; } }
+        @keyframes ripple { from { width: 0; height: 0; opacity: 0.6; } to { width: 280px; height: 280px; opacity: 0; } }
+        @keyframes knobSpin { from { rotate: 0deg; } to { rotate: 360deg; } }
+        @keyframes orbA { to { transform: translate(8vmax, 6vmax) scale(1.15); } }
+        @keyframes orbB { to { transform: translate(-7vmax, -5vmax) scale(1.2); } }
+        @keyframes orbC { to { transform: translate(-5vmax, 7vmax) scale(0.85); } }
+
+        /* พื้นหลังออร่าเคลื่อนไหวเบา ๆ */
+        .ambient-bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+        .ambient-bg span { position: absolute; border-radius: 50%; will-change: transform; }
+        .ambient-bg span:nth-child(1) {
+            width: 50vmax; height: 50vmax; left: -14vmax; top: -16vmax;
+            background: radial-gradient(circle, rgba(0, 119, 255, 0.28), transparent 65%);
+            animation: orbA 22s ease-in-out infinite alternate;
+        }
+        .ambient-bg span:nth-child(2) {
+            width: 46vmax; height: 46vmax; right: -14vmax; bottom: -16vmax;
+            background: radial-gradient(circle, rgba(0, 188, 255, 0.22), transparent 65%);
+            animation: orbB 26s ease-in-out infinite alternate;
+        }
+        .ambient-bg span:nth-child(3) {
+            width: 30vmax; height: 30vmax; left: 45vw; top: 35vh;
+            background: radial-gradient(circle, rgba(255, 59, 74, 0.10), transparent 65%);
+            animation: orbC 30s ease-in-out infinite alternate;
+        }
+        html.light-mode .ambient-bg span { opacity: 0.55; }
+
+        /* ส่วนหัว */
+        .hero-block > h1 { animation: fadeUp 0.7s cubic-bezier(.2,.7,.2,1) 0.25s backwards; }
+        .hero-block > p { animation: fadeUp 0.7s cubic-bezier(.2,.7,.2,1) 0.4s backwards; }
+        .hero-block > .siren-bar { animation: fadeUp 0.7s cubic-bezier(.2,.7,.2,1) 0.55s backwards; }
+        #main-logo {
+            animation: logoIn 0.9s cubic-bezier(.2,.8,.2,1) backwards,
+                       logoFloat 5s ease-in-out 0.9s infinite,
+                       logoGlowDark 3.4s ease-in-out infinite;
+        }
+        html.light-mode #main-logo {
+            animation: logoIn 0.9s cubic-bezier(.2,.8,.2,1) backwards,
+                       logoFloat 5s ease-in-out 0.9s infinite,
+                       logoGlowLight 3.4s ease-in-out infinite;
+        }
+
+        /* แถบไซเรนใต้ชื่อระบบ */
+        .siren-bar { position: relative; background: #101826 !important; box-shadow: none !important; }
+        .siren-bar::before, .siren-bar::after { content: ''; position: absolute; top: 0; bottom: 0; width: 50%; }
+        .siren-bar::before {
+            left: 0; border-radius: 999px 0 0 999px; background: #ff3b4a;
+            box-shadow: 0 0 14px 2px rgba(255, 59, 74, 0.8);
+            animation: sirenRed 1.1s ease-in-out infinite alternate;
+        }
+        .siren-bar::after {
+            right: 0; border-radius: 0 999px 999px 0; background: #2f7bff;
+            box-shadow: 0 0 14px 2px rgba(47, 123, 255, 0.8);
+            animation: sirenBlue 1.1s ease-in-out infinite alternate;
+        }
+
+        /* การ์ด / แถวข้อหา เข้าฉากแบบไล่จังหวะ (เล่นซ้ำทุกครั้งที่สลับแท็บ) */
+        .search-crime-bar, .bg-card, .summary-box-neon {
+            animation: fadeUp 0.6s cubic-bezier(.2,.7,.2,1) var(--d, 0s) backwards;
+        }
+        .bg-card:nth-child(2) { --d: 0.08s; }
+        .bg-card:nth-child(3) { --d: 0.16s; }
+        .bg-card:nth-child(4) { --d: 0.24s; }
+
+        .bg-subcard {
+            position: relative; isolation: isolate;
+            animation: popIn 0.45s cubic-bezier(.2,.7,.2,1) var(--d, 0s) backwards;
+        }
+        .bg-subcard:nth-child(1) { --d: 0.075s; }
+        .bg-subcard:nth-child(2) { --d: 0.110s; }
+        .bg-subcard:nth-child(3) { --d: 0.145s; }
+        .bg-subcard:nth-child(4) { --d: 0.180s; }
+        .bg-subcard:nth-child(5) { --d: 0.215s; }
+        .bg-subcard:nth-child(6) { --d: 0.250s; }
+        .bg-subcard:nth-child(7) { --d: 0.285s; }
+        .bg-subcard:nth-child(8) { --d: 0.320s; }
+        .bg-subcard:nth-child(9) { --d: 0.355s; }
+        .bg-subcard:nth-child(10) { --d: 0.390s; }
+        .bg-subcard:nth-child(11) { --d: 0.425s; }
+        .bg-subcard:nth-child(12) { --d: 0.460s; }
+        .bg-subcard:nth-child(13) { --d: 0.495s; }
+        .bg-subcard:nth-child(14) { --d: 0.530s; }
+        .bg-subcard:nth-child(n+15) { --d: 0.55s; }
+        /* ติ๊กเลือก: มีวงคลื่นกระจายออกจากแถว (popIn ที่กำลังเล่นอยู่ไม่ถูกรีสตาร์ท) */
+        .bg-subcard:has(input:checked) {
+            animation: popIn 0.45s cubic-bezier(.2,.7,.2,1) var(--d, 0s) backwards,
+                       selectRing 0.6s ease-out;
+        }
+        /* แสงสปอตไลต์ตามเมาส์ */
+        .bg-subcard::before {
+            content: ''; position: absolute; inset: 0; border-radius: inherit;
+            z-index: -1; pointer-events: none; opacity: 0; transition: opacity 0.25s ease;
+            background: radial-gradient(160px circle at var(--mx, 50%) var(--my, 50%), rgba(56, 189, 248, 0.16), transparent 70%);
+        }
+        .bg-subcard:hover::before { opacity: 1; }
+        html.light-mode .bg-subcard::before {
+            background: radial-gradient(160px circle at var(--mx, 50%) var(--my, 50%), rgba(37, 99, 235, 0.14), transparent 70%);
+        }
+
+        /* checkbox เด้ง + เครื่องหมายถูกหมุนเข้า */
+        .custom-checkbox:checked { animation: checkPop 0.32s cubic-bezier(.3,1.6,.5,1); }
+        .custom-checkbox:checked::after { animation: tickIn 0.28s cubic-bezier(.3,1.6,.5,1); }
+
+        /* ตัวเลขเด้งเมื่อค่าเปลี่ยน */
+        .num-bump { display: inline-block; animation: numBump 0.5s ease-out; }
+
+        /* คำเตือนห้ามประกันสั่นเมื่อปรากฏ */
+        #bail-warning { animation: warnShake 0.5s ease-in-out; }
+        #lbl-bail-self, #lbl-bail-rel { transition: opacity 0.3s ease, background-color 0.2s ease; }
+
+        /* ปุ่ม: ริปเปิลตอนกด + แสงวิ่งผ่านปุ่มหลัก */
+        .btn-bounce { position: relative; overflow: hidden; }
+        .btn-bounce::before {
+            content: ''; position: absolute; left: var(--rx, 50%); top: var(--ry, 50%);
+            width: 0; height: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.35);
+            transform: translate(-50%, -50%); pointer-events: none; opacity: 0;
+        }
+        .btn-bounce.rippling::before { animation: ripple 0.55s ease-out; }
+        #btn-main-copy::after {
+            content: ''; position: absolute; top: 0; left: -60%; width: 40%; height: 100%;
+            background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transform: skewX(-20deg); pointer-events: none;
+            animation: shine 3.6s ease-in-out 1.2s infinite;
+        }
+
+        /* แถบเมนูล่าง / สรุปย่อมือถือ เลื่อนขึ้นตอนเปิดเว็บ */
+        .theme-nav { animation: slideUpIn 0.6s cubic-bezier(.2,.8,.2,1) 0.2s backwards; }
+        #mobile-mini-summary { animation: slideUpIn 0.6s cubic-bezier(.2,.8,.2,1) 0.35s backwards; }
+        .tab-btn { transition: all 0.2s ease; }
+        .tab-btn:hover { transform: translateY(-2px); }
+        .tab-btn:active { transform: scale(0.96); }
+
+        #history-table-body tr { animation: rowIn 0.3s ease backwards; }
+
+        /* toast เด้งลงมา */
+        .toast-notification { transition: opacity 0.3s ease, top 0.5s cubic-bezier(.34,1.56,.64,1), visibility 0.3s; }
+
+        /* ปุ่มสลับธีม: ลูกบิดหมุน + วงกลมขยายเปลี่ยนธีม */
+        #theme-toggle-btn .toggle-knob.spin { animation: knobSpin 0.6s cubic-bezier(.3,1.4,.5,1); }
+        ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+        ::view-transition-old(root) { z-index: 1; }
+        ::view-transition-new(root) { z-index: 2; }
+
+        /* เคารพการตั้งค่า "ลดการเคลื่อนไหว" ของระบบ */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .ambient-bg { display: none; }
+        }
     </style>
 </head>
 <body class="text-gray-200 min-h-screen p-6 pb-24 select-none">
+
+    <div class="ambient-bg" aria-hidden="true"><span></span><span></span><span></span></div>
 
     <button id="theme-toggle-btn" onclick="toggleTheme()" title="สลับธีมสี" aria-label="สลับธีมสี">
         <span class="toggle-knob">🌙</span>
     </button>
 
-    <div class="max-w-7xl mx-auto mb-8 flex flex-col items-center justify-center text-center select-none">
+    <div class="hero-block max-w-7xl mx-auto mb-8 flex flex-col items-center justify-center text-center select-none">
         <img id="main-logo" src="1000018386.png" 
              alt="Police Some Town Logo" 
              class="w-56 h-auto mb-3 filter drop-shadow-[0_0_20px_rgba(0,188,255,0.45)] mix-blend-lighten">
@@ -440,7 +638,7 @@
             ระบบคิดค่าปรับ Some Town
         </h1>
         <p class="text-xs text-slate-500 mt-2">เลือกข้อหา ระบบคำนวณค่าปรับและเวลาจำคุกให้อัตโนมัติ</p>
-        <div class="w-32 h-[3px] mt-3 rounded-full bg-gradient-to-r from-[#1e40af] via-[#00bcff] to-[#1e3a8a] shadow-[0_0_10px_rgba(0,188,255,0.5)]"></div>
+        <div class="siren-bar w-32 h-[3px] mt-3 rounded-full bg-gradient-to-r from-[#1e40af] via-[#00bcff] to-[#1e3a8a] shadow-[0_0_10px_rgba(0,188,255,0.5)]"></div>
     </div>
 
     <!-- แถบสรุปย่อลอย (มือถือ) -->
@@ -1460,12 +1658,138 @@
         document.addEventListener('change', () => { updateCategoryCounts(); updateMiniSummary(); });
         document.addEventListener('input', () => { updateCategoryCounts(); updateMiniSummary(); });
 
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // ===== แอนิเมชันเสริม =====
+        function setupCountUp(id, format) {
+            const el = document.getElementById(id);
+            if (!el || prefersReducedMotion) return;
+            const parse = t => parseInt(String(t).replace(/[^\d-]/g, ''), 10);
+            let shown = parse(el.textContent) || 0;
+            let target = shown, raf = null;
+            const mo = new MutationObserver(() => {
+                const next = parse(el.textContent);
+                if (isNaN(next)) return;
+                if (raf && next === target) { el.textContent = format(shown); mo.takeRecords(); return; }
+                if (!raf && next === shown) return;
+                const from = shown;
+                target = next;
+                el.textContent = format(from); mo.takeRecords();
+                if (raf) cancelAnimationFrame(raf);
+                el.classList.remove('num-bump'); void el.offsetWidth; el.classList.add('num-bump');
+                const start = performance.now();
+                const dur = Math.min(900, 350 + Math.abs(target - from) / 120);
+                const step = now => {
+                    const t = Math.min(1, (now - start) / dur);
+                    const eased = 1 - Math.pow(1 - t, 3);
+                    shown = Math.round(from + (target - from) * eased);
+                    el.textContent = format(shown); mo.takeRecords();
+                    updateMiniSummary();
+                    raf = t < 1 ? requestAnimationFrame(step) : null;
+                };
+                raf = requestAnimationFrame(step);
+            });
+            mo.observe(el, { childList: true, characterData: true, subtree: true });
+        }
+
+        function setupBadgeBump() {
+            document.querySelectorAll('.category-count, #history-badge').forEach(el => {
+                let prev = el.textContent;
+                new MutationObserver(() => {
+                    if (el.textContent === prev) return;
+                    prev = el.textContent;
+                    el.classList.remove('num-bump'); void el.offsetWidth; el.classList.add('num-bump');
+                }).observe(el, { childList: true, characterData: true, subtree: true });
+            });
+        }
+
+        function spawnBurst(x, y) {
+            if (prefersReducedMotion) return;
+            const colors = ['#38bdf8', '#0084ff', '#ffffff', '#fbbf24', '#22c55e'];
+            for (let i = 0; i < 18; i++) {
+                const p = document.createElement('span');
+                const size = 4 + Math.random() * 5;
+                Object.assign(p.style, {
+                    position: 'fixed', left: x + 'px', top: y + 'px',
+                    width: size + 'px', height: size + 'px',
+                    borderRadius: Math.random() > 0.5 ? '50%' : '2px',
+                    background: colors[i % colors.length], pointerEvents: 'none', zIndex: 9998
+                });
+                document.body.appendChild(p);
+                const ang = Math.random() * Math.PI * 2;
+                const dist = 50 + Math.random() * 90;
+                const dx = Math.cos(ang) * dist, dy = Math.sin(ang) * dist - 30;
+                p.animate([
+                    { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+                    { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy + 40}px)) scale(0.2) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], { duration: 700 + Math.random() * 400, easing: 'cubic-bezier(.15,.8,.3,1)' }).onfinish = () => p.remove();
+            }
+        }
+
+        function initAnimations() {
+            setupCountUp('res-fine', v => v.toLocaleString());
+            setupCountUp('res-time', v => String(v));
+            setupCountUp('res-bail-cost', v => v.toLocaleString());
+            setupBadgeBump();
+
+            // สปอตไลต์ตามเมาส์บนแถวข้อหา
+            document.addEventListener('pointermove', e => {
+                if (e.pointerType === 'touch') return;
+                const card = e.target.closest && e.target.closest('.bg-subcard');
+                if (!card) return;
+                const r = card.getBoundingClientRect();
+                card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+                card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+            }, { passive: true });
+
+            // ริปเปิลตอนกดปุ่ม
+            document.addEventListener('pointerdown', e => {
+                const btn = e.target.closest && e.target.closest('.btn-bounce');
+                if (!btn || prefersReducedMotion) return;
+                const r = btn.getBoundingClientRect();
+                btn.style.setProperty('--rx', (e.clientX - r.left) + 'px');
+                btn.style.setProperty('--ry', (e.clientY - r.top) + 'px');
+                btn.classList.remove('rippling'); void btn.offsetWidth; btn.classList.add('rippling');
+            });
+            document.addEventListener('animationend', e => {
+                if (e.animationName === 'ripple') e.target.classList.remove('rippling');
+            });
+
+            // พลุเล็ก ๆ ตอนคัดลอกข้อหาสำเร็จ
+            const mainCopyBtn = document.getElementById('btn-main-copy');
+            mainCopyBtn.addEventListener('click', () => {
+                if (!globalShortCrimesText) return;
+                const r = mainCopyBtn.getBoundingClientRect();
+                spawnBurst(r.left + r.width / 2, r.top + r.height / 2);
+            });
+        }
+
         // ===== สลับธีมสี (ดำ/ขาว) =====
         function toggleTheme() {
-            const isLight = document.documentElement.classList.toggle('light-mode');
-            const knob = document.querySelector('#theme-toggle-btn .toggle-knob');
-            if (knob) knob.innerText = isLight ? '☀️' : '🌙';
-            try { localStorage.setItem('someTownTheme', isLight ? 'light' : 'dark'); } catch (e) {}
+            const btn = document.getElementById('theme-toggle-btn');
+            const apply = () => {
+                const isLight = document.documentElement.classList.toggle('light-mode');
+                const knob = document.querySelector('#theme-toggle-btn .toggle-knob');
+                if (knob) {
+                    knob.innerText = isLight ? '☀️' : '🌙';
+                    if (!prefersReducedMotion) {
+                        knob.classList.remove('spin'); void knob.offsetWidth; knob.classList.add('spin');
+                        setTimeout(() => knob.classList.remove('spin'), 700);
+                    }
+                }
+                try { localStorage.setItem('someTownTheme', isLight ? 'light' : 'dark'); } catch (e) {}
+            };
+            if (!document.startViewTransition || prefersReducedMotion) { apply(); return; }
+            const r = btn.getBoundingClientRect();
+            const x = r.left + r.width / 2, y = r.top + r.height / 2;
+            const end = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+            const t = document.startViewTransition(apply);
+            t.ready.then(() => {
+                document.documentElement.animate(
+                    { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${end}px at ${x}px ${y}px)`] },
+                    { duration: 650, easing: 'ease-in-out', pseudoElement: '::view-transition-new(root)' }
+                );
+            }).catch(() => {});
         }
 
         (function initTheme() {
@@ -1483,6 +1807,7 @@
         runCalculation();
         updateCategoryCounts();
         updateMiniSummary();
+        initAnimations();
     </script>
 </body>
 </html>
