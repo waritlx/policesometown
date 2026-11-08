@@ -773,12 +773,13 @@
                             <label class="p-3 bg-subcard rounded-xl flex items-center gap-3 cursor-pointer text-sm"><input type="checkbox" id="area-risk" class="crime-checkbox custom-checkbox" data-fine="5000" data-time="5" data-name="พื้นที่สุ่มเสี่ยง" data-type="normal"><div><p class="font-medium">พื้นที่สุ่มเสี่ยง</p><p class="text-xs text-blue-400">5,000 | 5 นาที</p></div></label>
                             <label class="p-3 bg-subcard rounded-xl flex items-center gap-3 cursor-pointer text-sm"><input type="checkbox" id="area-city" class="crime-checkbox custom-checkbox" data-fine="2000" data-time="5" data-name="หลบหนีในเมือง" data-type="normal"><div><p class="font-medium">หลบหนีในเมือง</p><p class="text-xs text-blue-400">2,000 | 5 นาที</p></div></label>
                             <label class="p-3 bg-subcard rounded-xl flex items-center gap-3 cursor-pointer text-sm"><input type="checkbox" id="area-out" class="crime-checkbox custom-checkbox" data-fine="5000" data-time="5" data-name="หลบหนีนอกเมือง" data-type="normal"><div><p class="font-medium">หลบหนีนอกเมือง</p><p class="text-xs text-blue-400">5,000 | 5 นาที</p></div></label>
-                            <label class="p-3 bg-subcard rounded-xl flex items-center gap-3 cursor-pointer text-sm"><input type="checkbox" id="area-upper" class="crime-checkbox custom-checkbox" data-fine="15000" data-time="10" data-name="หลบหนีเมืองบน" data-type="normal"><div><p class="font-medium">หลบหนีเมืองบน</p><p class="text-xs text-blue-400">15,000 | 10 นาที</p></div></label>
+                            <label class="p-3 bg-subcard rounded-xl flex items-center gap-3 cursor-pointer text-sm"><input type="checkbox" id="area-upper" class="crime-checkbox custom-checkbox" data-fine="6000" data-time="5" data-name="หลบหนีพื้นที่ท่าน้ำ" data-type="normal"><div><p class="font-medium">หลบหนีพื้นที่ท่าน้ำ</p><p class="text-xs text-blue-400">6,000 | 5 นาที</p></div></label>
                             <label class="p-3 bg-subcard rounded-xl flex items-center gap-3 cursor-pointer text-sm"><input type="checkbox" id="area-air" class="crime-checkbox custom-checkbox" data-fine="10000" data-time="10" data-name="หลบหนีสนามบิน" data-type="normal"><div><p class="font-medium">หลบหนีสนามบิน</p><p class="text-xs text-blue-400">10,000 | 10 นาที</p></div></label>
+                            <label class="p-3 bg-subcard rounded-xl flex items-center gap-3 cursor-pointer text-sm"><input type="checkbox" id="area-mountain" class="crime-checkbox custom-checkbox" data-fine="16000" data-time="10" data-name="หลบหนีพื้นที่ภูเขาสูง" data-type="normal"><div><p class="font-medium">หลบหนีพื้นที่ภูเขาสูง</p><p class="text-xs text-blue-400">16,000 | 10 นาที</p></div></label>
                             <label class="p-3 bg-subcard rounded-xl flex items-center gap-3 cursor-pointer text-sm"><input type="checkbox" id="area-desert" class="crime-checkbox custom-checkbox" data-fine="12000" data-time="10" data-name="หลบหนีทะเลทราย" data-type="normal"><div><p class="font-medium">หลบหนีทะเลทราย</p><p class="text-xs text-blue-400">12,000 | 10 นาที</p></div></label>
                             <label class="p-3 bg-subcard rounded-xl flex items-center gap-3 cursor-pointer text-sm"><input type="checkbox" id="area-around" class="crime-checkbox custom-checkbox" data-fine="20000" data-time="15" data-name="หลบหนีรอบเมือง" data-type="normal"><div><p class="font-medium">หลบหนีรอบเมือง</p><p class="text-xs text-blue-400">20,000 | 15 นาที</p></div></label>
-                            <label class="p-3 bg-subcard rounded-xl flex items-center gap-3 cursor-pointer text-sm"><input type="checkbox" id="area-hard" class="crime-checkbox custom-checkbox" data-fine="8000" data-time="10" data-name="พื้นที่เข้าถึงยาก" data-type="normal"><div><p class="font-medium">เข้าถึงยาก</p><p class="text-xs text-blue-400">8,000 | 10 นาที</p></div></label>
                             <label class="p-3 bg-subcard rounded-xl flex items-center gap-3 cursor-pointer text-sm"><input type="checkbox" id="area-water" class="crime-checkbox custom-checkbox" data-fine="20000" data-time="10" data-name="หลบหนีทางน้ำ" data-type="normal"><div><p class="font-medium">หลบหนีทางน้ำ</p><p class="text-xs text-blue-400">20,000 | 10 นาที</p></div></label>
+                            <label class="p-3 bg-subcard rounded-xl flex items-center gap-3 cursor-pointer text-sm"><input type="checkbox" id="area-hard" class="crime-checkbox custom-checkbox" data-fine="8000" data-time="10" data-name="พื้นที่เข้าถึงยาก" data-type="normal"><div><p class="font-medium">เข้าถึงยาก</p><p class="text-xs text-blue-400">8,000 | 10 นาที</p></div></label>
                         </div>
                     </div>
                 </div>
@@ -1207,13 +1208,14 @@
             const areaOut = document.getElementById('area-out');         
             const areaUpper = document.getElementById('area-upper');     
             const areaAir = document.getElementById('area-air');         
+            const areaMountain = document.getElementById('area-mountain');
             const areaDesert = document.getElementById('area-desert');   
             const areaAround = document.getElementById('area-around');   
             const areaHard = document.getElementById('area-hard');       
             const areaWater = document.getElementById('area-water');     
 
-            const allAreaElements = [areaRisk, areaCity, areaOut, areaUpper, areaAir, areaDesert, areaAround, areaHard, areaWater];
-            const otherEscapeAreas = [areaOut, areaUpper, areaAir, areaDesert, areaAround];
+            const allAreaElements = [areaRisk, areaCity, areaOut, areaUpper, areaAir, areaMountain, areaDesert, areaAround, areaHard, areaWater];
+            const otherEscapeAreas = [areaOut, areaUpper, areaAir, areaMountain, areaDesert, areaAround];
 
             allAreaElements.forEach(el => el.disabled = false);
 
@@ -1763,7 +1765,7 @@
                 spawnBurst(r.left + r.width / 2, r.top + r.height / 2);
             });
         }
-
+        
         // ===== สลับธีมสี (ดำ/ขาว) =====
         function toggleTheme() {
             const btn = document.getElementById('theme-toggle-btn');
