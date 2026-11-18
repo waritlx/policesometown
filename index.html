@@ -835,10 +835,12 @@
             <div id="summary-panel" class="space-y-4 summary-sticky">
                 <div class="bg-card p-4 rounded-xl space-y-3">
                     <h3 class="text-sm font-bold text-cyan-400 flex items-center gap-2">🚗 โทษแต่งรถ</h3>
-                    <div class="grid grid-cols-3 gap-2 text-xs">
+                    <div class="grid grid-cols-2 gap-2 text-xs">
                         <label class="car-btn-dark p-2.5 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer text-gray-200"><input type="checkbox" id="car-wheel" class="custom-checkbox"> <span>ล้อโทนมืด (x2)</span></label>
                         <label class="car-btn-dark p-2.5 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer text-gray-200"><input type="checkbox" id="car-color" class="custom-checkbox"> <span>สีรถโทนมืด (x2)</span></label>
-                        <label class="car-btn-dark p-2.5 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer text-gray-200"><input type="checkbox" id="car-trade" class="custom-checkbox"> <span>เทรดรถ (x5)</span></label>
+                        <label class="car-btn-dark p-2.5 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer text-gray-200"><input type="checkbox" id="car-recolor" class="custom-checkbox"> <span>เปลี่ยนสีรถ (x5)</span></label>
+                        <label class="car-btn-dark p-2.5 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer text-gray-200"><input type="checkbox" id="car-rewheel" class="custom-checkbox"> <span>เปลี่ยนสีล้อ (x5)</span></label>
+                        <label class="col-span-2 car-btn-dark p-2.5 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer text-gray-200"><input type="checkbox" id="car-trade" class="custom-checkbox"> <span>เทรดรถ (x5)</span></label>
                     </div>
                 </div>
 
@@ -1162,7 +1164,7 @@
             document.querySelectorAll('.crime-checkbox').forEach(cb => {
                 if (cb.checked && !selectionOrder.includes(cb)) selectionOrder.push(cb);
             });
-            const carBoxes = ['car-wheel', 'car-color', 'car-trade'].map(id => document.getElementById(id));
+            const carBoxes = ['car-wheel', 'car-color', 'car-trade', 'car-recolor', 'car-rewheel'].map(id => document.getElementById(id));
             if (colChecked && !prevColChecked) {
                 selectionOrder.forEach(cb => textExcluded.add(cb));
                 carBoxes.forEach(cb => { if (cb.checked) textExcluded.add(cb); });
@@ -1233,6 +1235,8 @@
             if (document.getElementById('car-wheel').checked) carMultiplier += 2;
             if (document.getElementById('car-color').checked) carMultiplier += 2;
             if (document.getElementById('car-trade').checked) carMultiplier += 5;
+            if (document.getElementById('car-recolor').checked) carMultiplier += 5;
+            if (document.getElementById('car-rewheel').checked) carMultiplier += 5;
 
             let activeMultiplier = carMultiplier === 0 ? 1 : carMultiplier;
             let finalFine = baseFine * activeMultiplier;
@@ -1271,6 +1275,8 @@
             if (carBoxes[0].checked && !textExcluded.has(carBoxes[0])) outputArray.push("ล้อโทนมืด");
             if (carBoxes[1].checked && !textExcluded.has(carBoxes[1])) outputArray.push("สีรถโทนมืด");
             if (carBoxes[2].checked && !textExcluded.has(carBoxes[2])) outputArray.push("เทรดรถ");
+            if (carBoxes[3].checked && !textExcluded.has(carBoxes[3])) outputArray.push("เปลี่ยนสีรถ");
+            if (carBoxes[4].checked && !textExcluded.has(carBoxes[4])) outputArray.push("เปลี่ยนสีล้อ");
             if (document.getElementById('opt-col').checked) outputArray.push("สมรู้ร่วมคิด");
             if ((isBailSelf || isBailRel) && outputArray.length > 0) outputArray.push("ประกัน");
 
